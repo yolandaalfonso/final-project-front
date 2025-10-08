@@ -12,6 +12,7 @@ class RegisterService {
           username: formData.username,
           email: formData.email,
           password: formData.password,
+          confirmPassword: formData.confirmPassword,
         };
   
        
@@ -54,6 +55,10 @@ class RegisterService {
   
       if (!userData.password || userData.password.length < 8) {
         throw new Error('La contraseña debe tener al menos 8 caracteres');
+      }
+
+      if (!userData.password !== userData.confirmPassword) {
+        throw new Error('Las contraseñas no coinciden');
       }
     }
   }
