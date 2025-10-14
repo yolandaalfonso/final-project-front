@@ -17,9 +17,31 @@ const RegistrationPage = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     setSubmitError('');
+    
 
     try {
-      const result = await registerService.registerUser(data);
+
+      // Avatar por defecto
+      const defaultAvatar =
+      "https://cdn-icons-png.flaticon.com/512/149/149071.png"; // puedes cambiarla por una tuya subida a Firebase Storage
+
+      const payload = {
+        userName: data.userName,
+        email: data.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+        name: data.name,
+        firstSurname: data.firstSurname,
+        bio: data.bio || '', // opcional, si el campo viene vacío
+        avatar: defaultAvatar,
+      };
+
+      console.log('Payload enviado:', payload);
+      console.log("Primer apellido:", payload.firstSurname);
+
+
+
+      const result = await registerService.registerUser(payload);
       if (result.success && result.status === 201) {
         setIsSuccessModalOpen(true);
       }
@@ -56,7 +78,7 @@ const RegistrationPage = () => {
               <input
                 type="text"
                 disabled={isLoading}
-                {...register('username', { required: 'El nombre de usuario es obligatorio' })}
+                {...register('userName', { required: 'El nombre de usuario es obligatorio' })}
                 className={`registration-form__input ${
                   errors.username ? 'registration-form__input--error' : ''
                 }`}
@@ -65,6 +87,59 @@ const RegistrationPage = () => {
                 <p className="registration-form__error">{errors.username.message}</p>
               )}
             </div>
+
+            {/* Bio */}
+            <div className="registration-form__field">
+              <label className="registration-form__label">Biografía</label>
+              <textarea
+                disabled={isLoading}
+                {...register('bio')}
+                className="registration-form__input registration-form__textarea"
+                placeholder="Cuéntanos algo sobre ti..."
+              ></textarea>
+            </div>
+
+            {/* Avatar */}
+            <div className="registration-form__field">
+              <label className="registration-form__label">Avatar</label>
+              <input
+                type="file"
+                accept="image/*"
+                disabled={isLoading}
+                {...register('avatar')}
+                className="registration-form__input"
+              />
+            </div>
+
+            {/* Name */}
+            <div className="registration-form__field">
+              <label className="registration-form__label">
+                Nombre <span className="registration-form__required">*</span>
+              </label>
+              <input
+                type="text"
+                disabled={isLoading}
+                {...register('name', { required: 'El nombre es obligatorio' })}
+                className={`registration-form__input ${errors.name ? 'registration-form__input--error' : ''}`}
+              />
+              {errors.name && <p className="registration-form__error">{errors.name.message}</p>}
+            </div>
+
+            {/* First Surname */}
+            <div className="registration-form__field">
+              <label className="registration-form__label">
+                Primer apellido <span className="registration-form__required">*</span>
+              </label>
+              <input
+                type="text"
+                disabled={isLoading}
+                {...register('firstSurname', { required: 'El primer apellido es obligatorio' })}
+                className={`registration-form__input ${errors.firstSurname ? 'registration-form__input--error' : ''}`}
+              />
+              {errors.firstSurname && <p className="registration-form__error">{errors.firstSurname.message}</p>}
+            </div>
+
+
 
             {/* Email */}
             <div className="registration-form__field">
@@ -122,16 +197,16 @@ const RegistrationPage = () => {
               <input
                 type="password"
                 disabled={isLoading}
-                {...register('repeatPassword', {
+                {...register('confirmPassword', {
                   required: 'Repetir contraseña es obligatorio',
                   validate: v => v === watchPassword || 'Las contraseñas no coinciden'
                 })}
                 className={`registration-form__input ${
-                  errors.repeatPassword ? 'registration-form__input--error' : ''
+                  errors.confirmPassword ? 'registration-form__input--error' : ''
                 }`}
               />
-              {errors.repeatPassword && (
-                <p className="registration-form__error">{errors.repeatPassword.message}</p>
+              {errors.confirmPassword && (
+                <p className="registration-form__error">{errors.confirmPassword.message}</p>
               )}
             </div>
           </section>
