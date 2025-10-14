@@ -7,12 +7,20 @@ class RegisterService {
   
     async registerUser(formData) {
       try {
+
+        console.log("Password:", `[${formData.password}]`);
+        console.log("Confirm:", `[${formData.confirmPassword}]`);
+
   
         const userDataForValidation = {
-          username: formData.username,
+          userName: formData.userName,
           email: formData.email,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
+          name: formData.name,
+          firstSurname: formData.firstSurname,
+          bio: formData.bio,
+          avatar: formData.avatar,
         };
   
        
@@ -20,9 +28,14 @@ class RegisterService {
   
     
         const userDataForAPI = {
-          username: formData.username,
+          /* username: formData.username, */
           email: btoa(formData.email),
           password: btoa(formData.password),
+          name: formData.name,
+          firstSurname: formData.firstSurname,
+          userName: formData.userName,
+          bio: formData.bio || "",
+          avatar: formData.avatar || ""
         };
   
         const result = await this.registerRepository.register(userDataForAPI);
@@ -41,11 +54,21 @@ class RegisterService {
         throw error;
       }
     }
+
+    
   
     validateUserData(userData) {
       
-      if (!userData.username?.trim()) {
+      if (!userData.name?.trim()) {
         throw new Error('El nombre es obligatorio');
+      }
+
+      if (!userData.firstSurname?.trim()) {
+        throw new Error("El primer apellido es obligatorio");
+      }
+
+      if (!userData.userName?.trim()) {
+        throw new Error("El nombre de usuario es obligatorio");
       }
     
       const emailRegex = /\S+@\S+\.\S+/;
@@ -57,7 +80,7 @@ class RegisterService {
         throw new Error('La contraseña debe tener al menos 8 caracteres');
       }
 
-      if (!userData.password !== userData.confirmPassword) {
+      if (userData.password !== userData.confirmPassword) {
         throw new Error('Las contraseñas no coinciden');
       }
     }
