@@ -1,100 +1,64 @@
-import { auth } from '../../firebase'; // tu inicialización de Firebase
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import AuthRepository from '../../repositories/auth/AuthRepository';
+// src/services/auth/AuthService.jsx
+import AuthRepository from "../../repositories/auth/AuthRepository";
 
 class AuthService {
   constructor() {
     this.authRepository = new AuthRepository();
-    this.baseUrl = import.meta.env.VITE_API_BASE_URL;
   }
 
-  // 🔹 REGISTRO con Firebase
-  async registerUser(formData) {
+  // 🔹 Login de usuario
+  async loginUser(credentials) {
     try {
-      const { email, password } = formData;
-      if (!email?.trim()) throw new Error('El email es obligatorio');
-      if (!password?.trim()) throw new Error('La contraseña es obligatoria');
+      const response = await this.authRepository.login(credentials);
 
-      // 👉 Crear usuario en Firebase
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const idToken = await userCredential.user.getIdToken();
+      // response debe incluir el token y datos del usuario
+      const { token, user } = response;
 
-      // 👉 Enviar token al backend si quieres crear también un registro local
-      const response = await fetch(`${this.baseUrl}/register`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${idToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Guarda el token en localStorage
+      localStorage.setItem("token", token);
 
-      if (!response.ok) throw new Error('Error registrando usuario en backend');
-      const data = await response.json();
-
-      console.log('✅ Usuario registrado en backend y Firebase:', data);
-      return data;
-    } catch (error) {
-      console.error('❌ Error en AuthService.registerUser:', error);
-      throw error;
-    }
-  }
-
-  // 🔹 LOGIN con Firebase
-  async loginUser(formData) {
-    try {
-      const { email, password } = formData;
-      if (!email?.trim()) throw new Error('El email es obligatorio');
-      if (!password?.trim()) throw new Error('La contraseña es obligatoria');
-
-      // 👉 Login con Firebase
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const idToken = await userCredential.user.getIdToken();
-
-      // 👉 Enviar token a tu backend para obtener datos de usuario, si aplica
-      const response = await fetch(`${this.baseUrl}/users/me`, {
-        headers: { 'Authorization': `Bearer ${idToken}` },
-      });
-
-      if (!response.ok) throw new Error('Error obteniendo usuario del backend');
-      const user = await response.json();
-
-      localStorage.setItem('userId', user.id_user);
-      console.log('✅ Login con éxito:', user);
       return user;
     } catch (error) {
-      console.error('❌ Error en AuthService.loginUser:', error);
+      console.error("Error en AuthService.loginUser:", error);
       throw error;
     }
   }
 
-  async logoutUser() {
+  // 🔹 Registro de usuario
+  async registerUser(data) {
     try {
-      await auth.signOut();
-      localStorage.removeItem('userId');
-      console.log('✅ Logout con éxito');
+      const response = await this.authRepository.register(data);
+      return response;
     } catch (error) {
-      console.error('❌ Error en AuthService.logoutUser:', error);
+      console.error("Error en AuthService.registerUser:", error);
       throw error;
     }
   }
 
+  // 🔹 Obtener usuario actual (si el token sigue siendo válido)
   async getCurrentUser() {
     try {
-      const user = auth.currentUser;
-      if (!user) return null;
-      const idToken = await user.getIdToken();
-      const response = await fetch(`${this.baseUrl}/users/me`, {
-        headers: { 'Authorization': `Bearer ${idToken}` },
-      });
-      if (!response.ok) return null;
-      return await response.json();
+      const token = localStorage.getItem("token");
+      if (!token) return null;
+
+      const user = await this.authRepository.getCurrentUser(token);
+      return user;
     } catch (error) {
-      console.error('❌ Error en AuthService.getCurrentUser:', error);
+      console.error("Error en AuthService.getCurrentUser:", error);
       return null;
+    }
+  }
+
+  // 🔹 Cerrar sesión
+  async logoutUser() {
+    try {
+      localStorage.removeItem("token");
+    } catch (error) {
+      console.error("Error en AuthService.logoutUser:", error);
     }
   }
 }
 
 const authService = new AuthService();
 export default authService;
+

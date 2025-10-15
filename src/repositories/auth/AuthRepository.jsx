@@ -3,66 +3,60 @@ import axios from 'axios';
 class AuthRepository {
   constructor() {
     this.api = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL,
+      baseURL: import.meta.env.VITE_API_BASE_URL, // por ejemplo: "http://localhost:8080/api"
       headers: {
-        'Accept': 'application/json',
+        "Accept": "application/json",
+        "Content-Type": "application/json",
       },
     });
   }
 
-  // 🔹 LOGIN usando token Firebase
-  async login(authToken) {
+  // 🔹 LOGIN → el backend genera el token JWT
+  async login(credentials) {
     try {
-      const response = await this.api.post(
-        '/login',
-        {}, // sin body
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`,
-          },
-        }
-      );
-
-      const user = response.data;
-
-      if (user.id_user) {
-        localStorage.setItem('userId', user.id_user);
-      }
-
-      console.log('✅ Login correcto:', user);
-      return user;
-
-    } catch (error) {
-      console.error('❌ Error en AuthRepository.login:', error);
-      throw new Error(error.response?.data?.message || 'Error al iniciar sesión');
-    }
-  }
-
-  // 🔹 OBTENER usuario actual
-  async getCurrentUser(authToken) {
-    try {
-      const response = await this.api.get('/users/me', {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-        },
-      });
-
+      const response = await this.api.post("/auth/login", credentials);
+      // el backend debe devolver { token, user }
       return response.data;
     } catch (error) {
-      console.error('❌ Error en AuthRepository.getCurrentUser:', error);
-      throw new Error(error.response?.data?.message || 'Error al obtener usuario');
+      console.error("❌ Error en AuthRepository.login:", error);
+      throw new Error(error.response?.data?.message || "Error al iniciar sesión");
     }
   }
 
-  // 🔹 LOGOUT
+  // 🔹 REGISTER → crear nuevo usuario
+  async register(data) {
+    try {
+      const response = await this.api.post("/auth/register", data);
+      return response.data;
+    } catch (error) {
+      console.error("❌ Error en AuthRepository.register:", error);
+      throw new Error(error.response?.data?.message || "Error al registrar usuario");
+    }
+  }
+
+  // 🔹 GET CURRENT USER → usando el token JWT guardado
+  async getCurrentUser(token) {
+    try {
+      const response = await this.api.get("/auth/current", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("❌ Error en AuthRepository.getCurrentUser:", error);
+      return null;
+    }
+  }
+
+  // 🔹 LOGOUT → opcional (dependiendo de si tu backend invalida tokens)
   async logout() {
     try {
-      await this.api.post('/logout');
-      localStorage.removeItem('userId');
-      console.log('✅ Logout correcto');
+      await this.api.post("/auth/logout");
+      console.log("✅ Logout correcto");
     } catch (error) {
-      console.error('❌ Error en AuthRepository.logout:', error);
-      throw new Error('Error al cerrar sesión');
+      console.error("❌ Error en AuthRepository.logout:", error);
+      throw new Error("Error al cerrar sesión");
     }
   }
 }
