@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import authService from "../services/auth/AuthService";
+import AuthService from "../services/auth/AuthService"; // 👈 CAMBIO: Importa la clase, no la instancia
 
 const AuthContext = createContext();
 
@@ -10,15 +10,21 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // 👇 Crea una instancia de la clase AuthService
+  const authService = new AuthService();
 
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const currentUser = await authService.getCurrentUser();
-        if (currentUser) {
-          setUser(currentUser);
-          setIsAuthenticated(true);
-          localStorage.setItem("userId", currentUser.id_user);
+        const token = authService.getToken();
+        if (token) {
+          // Si tienes un endpoint para obtener el usuario actual
+          const currentUser = await authService.authRepository.getCurrentUser(token);
+          if (currentUser) {
+            setUser(currentUser);
+            setIsAuthenticated(true);
+            localStorage.setItem("userId", currentUser.id_user || currentUser.userId);
+          }
         } else {
           setUser(null);
           setIsAuthenticated(false);
@@ -36,22 +42,27 @@ export const AuthProvider = ({ children }) => {
     checkSession();
   }, []);
 
-
   const login = async (email, password) => {
-    const userData = await authService.loginUser({ email, password });
-    setUser(userData);
-    setIsAuthenticated(true);
-    localStorage.setItem("userId", userData.id_user);
+    try {
+      // ✅ Llama a la función de AuthService correctamente
+      const userData = await authService.loginUser({ email, password });
+      setUser(userData);
+      setIsAuthenticated(true);
+      if (userData.id_user || userData.userId) {
+        localStorage.setItem("userId", userData.id_user || userData.userId);
+      }
+    } catch (error) {
+      console.error("Error en login:", error);
+      throw error;
+    }
   };
 
-
   const logout = async () => {
-    await authService.logoutUser();
+    authService.logout(); // 👈 Cambiado: tu AuthService no tiene logoutUser(), solo logout()
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem("userId");
   };
-
 
   const value = {
     user,
@@ -59,7 +70,6 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
   };
-
 
   if (loading) {
     return <div>Cargando sesión...</div>;

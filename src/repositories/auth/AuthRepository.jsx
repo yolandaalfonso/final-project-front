@@ -11,19 +11,36 @@ class AuthRepository {
     });
   }
 
-  // 🔹 LOGIN → el backend genera el token JWT
+  // 🔹 LOGIN → pide el token al backed
   async login(credentials) {
     try {
       const response = await this.api.post("/auth/login", credentials);
-      // el backend debe devolver { token, user }
-      return response.data;
+  
+      // Validar que la respuesta tenga los datos esperados
+      if (!response.data || !response.data.idToken) {
+        console.error("❌ Respuesta inesperada del backend:", response.data);
+        throw new Error("No se recibió un token válido del servidor");
+      }
+  
+      // 🔹 Normalizamos la respuesta para el resto del front
+      const token = response.data.idToken;
+      const refreshToken = response.data.refreshToken;
+
+      return {
+        token,
+        refreshToken,
+        user: { email: credentials.email },
+      };
     } catch (error) {
-      console.error("❌ Error en AuthRepository.login:", error);
-      throw new Error(error.response?.data?.message || "Error al iniciar sesión");
+      // Captura el mensaje de error del backend si existe
+      const message = error.response?.data?.error || error.message || "Error al iniciar sesión";
+      console.error("❌ Error en AuthRepository.login:", message);
+      throw new Error(message);
     }
   }
+  
 
-  // 🔹 REGISTER → crear nuevo usuario
+  /* // 🔹 REGISTER → crear nuevo usuario
   async register(data) {
     try {
       const response = await this.api.post("/auth/register", data);
@@ -32,7 +49,7 @@ class AuthRepository {
       console.error("❌ Error en AuthRepository.register:", error);
       throw new Error(error.response?.data?.message || "Error al registrar usuario");
     }
-  }
+  } */
 
   // 🔹 GET CURRENT USER → usando el token JWT guardado
   async getCurrentUser(token) {

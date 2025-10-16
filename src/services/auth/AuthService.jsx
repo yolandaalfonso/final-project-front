@@ -1,4 +1,3 @@
-// src/services/auth/AuthService.jsx
 import AuthRepository from "../../repositories/auth/AuthRepository";
 
 class AuthService {
@@ -6,25 +5,25 @@ class AuthService {
     this.authRepository = new AuthRepository();
   }
 
-  // 🔹 Login de usuario
   async loginUser(credentials) {
     try {
       const response = await this.authRepository.login(credentials);
 
-      // response debe incluir el token y datos del usuario
-      const { token, user } = response;
+      // 👇 Supongamos que el backend devuelve { token: "xxxx", userId: "..." }
+      if (response && response.token) {
+        localStorage.setItem("authToken", response.token);
+        console.log("✅ Token guardado en localStorage");
+      }
 
-      // Guarda el token en localStorage
-      localStorage.setItem("token", token);
-
-      return user;
+      return response;
     } catch (error) {
-      console.error("Error en AuthService.loginUser:", error);
+      console.error("❌ Error en AuthService.loginUser:", error);
       throw error;
     }
   }
+  
 
-  // 🔹 Registro de usuario
+  /* // 🔹 Registro de usuario
   async registerUser(data) {
     try {
       const response = await this.authRepository.register(data);
@@ -33,32 +32,20 @@ class AuthService {
       console.error("Error en AuthService.registerUser:", error);
       throw error;
     }
+  } */
+
+  // 🔹 Para cerrar sesión
+  logout() {
+    localStorage.removeItem("authToken");
+    console.log("🚪 Sesión cerrada");
   }
 
-  // 🔹 Obtener usuario actual (si el token sigue siendo válido)
-  async getCurrentUser() {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return null;
-
-      const user = await this.authRepository.getCurrentUser(token);
-      return user;
-    } catch (error) {
-      console.error("Error en AuthService.getCurrentUser:", error);
-      return null;
-    }
+  // 🔹 Para obtener el token cuando lo necesites
+  getToken() {
+    return localStorage.getItem("authToken");
   }
 
-  // 🔹 Cerrar sesión
-  async logoutUser() {
-    try {
-      localStorage.removeItem("token");
-    } catch (error) {
-      console.error("Error en AuthService.logoutUser:", error);
-    }
-  }
 }
 
-const authService = new AuthService();
-export default authService;
+export default AuthService;
 
