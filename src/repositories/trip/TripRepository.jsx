@@ -15,6 +15,7 @@ class TripRepository {
     async create(tripData) {
         try {
             const response = await this.client.post('/trips', tripData);
+            console.log(response)
             return response.data;
         } catch (error) {
             console.error('Error en TripRepository.create:', error.response?.data || error.message);
