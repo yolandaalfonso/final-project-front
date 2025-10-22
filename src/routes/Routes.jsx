@@ -3,6 +3,8 @@ import {Routes, Route} from 'react-router-dom';
 import Home from "../pages/homePage/HomePage"
 import RegistrationPage from "../pages/registration/RegistrationPage";
 import LoginPage from "../pages/login/LoginPage";
+import AddTripForm from "../pages/tripForm/TripForm";
+import TripForm from "../pages/tripForm/TripForm";
 
 export default function AppRoutes () {
     return (
@@ -10,6 +12,7 @@ export default function AppRoutes () {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/tripForm" element={<TripForm />} />
          {/*  <Route path="/" element={<Home />} /> */}
           
           </Routes>  

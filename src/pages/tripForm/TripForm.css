@@ -1,0 +1,180 @@
+/* --- CONTENEDOR GENERAL --- */
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  }
+  
+  .form-container h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  /* --- FORMULARIO --- */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    display: block;
+    color: #333;
+  }
+  
+  /* --- CAMPOS DE TEXTO --- */
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0.6rem;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
+    outline: none;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  /* --- INPUT DE FOTOS --- */
+  .file-input {
+    display: block;
+  }
+  
+  .text-small {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.25rem;
+  }
+  
+  /* --- GRUPO DE FECHAS --- */
+  .date-group {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .date-group div {
+    flex: 1;
+  }
+  
+  /* --- INPUT DE CIUDADES --- */
+  .city-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .city-input-group input {
+    flex: 1;
+  }
+  
+  .add-city-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+  
+  .add-city-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* --- LISTA DE CIUDADES --- */
+  .cities-list {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .city-chip {
+    background-color: #e5e7eb;
+    color: #333;
+    padding: 0.3rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .city-chip button {
+    background: none;
+    border: none;
+    color: #d33;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+  }
+  
+  /* --- BOTÓN DE ENVÍO --- */
+  .submit-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #1e7e34;
+  }
+  
+  /* --- RESPONSIVE DESIGN --- */
+  @media (max-width: 640px) {
+    .form-container {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+  
+    .date-group {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  
+    .add-city-btn {
+      padding: 0.5rem 0.7rem;
+      font-size: 0.9rem;
+    }
+  
+    .submit-btn {
+      font-size: 0.95rem;
+      padding: 0.7rem;
+    }
+  }
+  
+  /* --- ANIMACIÓN SUAVE AL PASAR POR ENCIMA DE BOTONES --- */
+  button,
+  .add-city-btn,
+  .submit-btn {
+    transition: all 0.2s ease;
+  }
+  
