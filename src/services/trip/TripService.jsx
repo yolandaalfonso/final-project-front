@@ -1,3 +1,5 @@
+import TripRepository from "../../repositories/trip/TripRepository";
+
 class TripService {
     constructor() {
         this.pacientsRepository = new TripRepository();
