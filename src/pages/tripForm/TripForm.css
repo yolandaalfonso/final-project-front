@@ -78,17 +78,17 @@
   }
   
   /* --- INPUT DE CIUDADES --- */
-  .city-input-group {
+  .country-input-group {
     display: flex;
     gap: 0.5rem;
     align-items: center;
   }
   
-  .city-input-group input {
+  .country-input-group input {
     flex: 1;
   }
   
-  .add-city-btn {
+  .add-country-btn {
     background-color: #007bff;
     color: white;
     border: none;
@@ -99,19 +99,19 @@
     transition: background-color 0.2s;
   }
   
-  .add-city-btn:hover {
+  .add-country-btn:hover {
     background-color: #0056b3;
   }
   
   /* --- LISTA DE CIUDADES --- */
-  .cities-list {
+  .country-list {
     margin-top: 0.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
   
-  .city-chip {
+  .country-chip {
     background-color: #e5e7eb;
     color: #333;
     padding: 0.3rem 0.6rem;
@@ -122,7 +122,7 @@
     gap: 0.3rem;
   }
   
-  .city-chip button {
+  .country-chip button {
     background: none;
     border: none;
     color: #d33;
@@ -160,7 +160,7 @@
       gap: 0.8rem;
     }
   
-    .add-city-btn {
+    .add-country-btn {
       padding: 0.5rem 0.7rem;
       font-size: 0.9rem;
     }
@@ -173,7 +173,7 @@
   
   /* --- ANIMACIÓN SUAVE AL PASAR POR ENCIMA DE BOTONES --- */
   button,
-  .add-city-btn,
+  .add-country-btn,
   .submit-btn {
     transition: all 0.2s ease;
   }

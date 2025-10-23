@@ -1,7 +1,7 @@
-import axios from 'axios';
+import apiClient from '../../services/apliClient';
 
 class TripRepository {
-    constructor() {
+    /* constructor() {
         this.baseUrl = import.meta.env.VITE_API_BASE_URL;
         this.client = axios.create({
             baseURL: this.baseUrl,
@@ -10,11 +10,11 @@ class TripRepository {
                 'Content-Type': 'application/json',
             },
         });
-    }
+    } */
 
     async create(tripData) {
         try {
-            const response = await this.client.post('/trips', tripData);
+            const response = await apiClient.post('/trips', tripData);
             console.log(response)
             return response.data;
         } catch (error) {
@@ -25,7 +25,7 @@ class TripRepository {
 
     async getAll() {
         try {
-            const response = await this.client.get('/trips');
+            const response = await apiClient.get('/trips');
             return response.data;
         } catch (error) {
             console.error('Error en TripRepository.getAll:', error.response?.data || error.message);
@@ -35,7 +35,7 @@ class TripRepository {
 
     async update(id, tripData) {
         try {
-            const response = await this.client.put(`/trips/${id}`, tripData);
+            const response = await apiClient.put(`/trips/${id}`, tripData);
             return response.data;
         } catch (error) {
             console.error('Error en TripRepository.update:', error.response?.data || error.message);
@@ -45,7 +45,7 @@ class TripRepository {
 
     async delete(id) {
         try {
-            await this.client.delete(`/trips/${id}`);
+            await apiClient.delete(`/trips/${id}`);
             return true;
         } catch (error) {
             console.error('Error en TripRepository.delete:', error.response?.data || error.message);

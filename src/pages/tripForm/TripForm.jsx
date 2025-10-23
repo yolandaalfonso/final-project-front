@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import apiClient from "../../services/apliClient";
 import './TripForm.css'
 
 export default function TripForm() {
@@ -7,9 +8,9 @@ export default function TripForm() {
     description: "",
     startDate: "",
     endDate: "",
-    cities: [],
+    country: [],
   });
-  const [cityInput, setCityInput] = useState("");
+  const [countryInput, setCountryInput] = useState("");
   const [images, setImages] = useState([]);
 
   // Manejar campos de texto
@@ -23,55 +24,76 @@ export default function TripForm() {
   };
 
   // Añadir ciudades
-  const handleAddCity = () => {
-    if (cityInput.trim() && !formData.cities.includes(cityInput.trim())) {
+  const handleAddCountry = () => {
+    if (countryInput.trim() && !formData.country.includes(countryInput.trim())) {
       setFormData({
         ...formData,
-        cities: [...formData.cities, cityInput.trim()],
+        country: [...formData.country, countryInput.trim()],
       });
-      setCityInput("");
+      setCountryInput("");
     }
   };
 
-  const handleRemoveCity = (city) => {
+  const handleRemoveCountry = (country) => {
     setFormData({
       ...formData,
-      cities: formData.cities.filter((c) => c !== city),
+      country: formData.country.filter((c) => c !== country),
     });
   };
 
   // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const data = new FormData();
-    data.append("title", formData.title);
+    /* data.append("title", formData.title);
     data.append("description", formData.description);
     data.append("startDate", formData.startDate);
     data.append("endDate", formData.endDate);
-    data.append("cities", JSON.stringify(formData.cities));
-    images.forEach((img) => data.append("images", img));
+    data.append("country", JSON.stringify(formData.country));
+    images.forEach((img) => data.append("images", img)); */
 
+    // Construir un objeto con la info del viaje
+    const tripData = {
+        title: formData.title,
+        description: formData.description,
+        country: formData.country.join(", "), // si tu backend espera un String
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+    };
+
+    // Agregar JSON como string bajo 'trip'
+    data.append("trip", new Blob([JSON.stringify(tripData)], { type: "application/json" }));
+
+    // Agregar imágenes bajo la clave 'images'
+    images.forEach((img) => data.append("images", img));
+  
     try {
-      const response = await fetch("http://localhost:8080/api/trips", {
-        method: "POST",
-        body: data,
+      const response = await apiClient.post("/trips", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      if (response.ok) {
-        alert("Viaje creado con éxito ✈️");
-        setFormData({
-          title: "",
-          description: "",
-          startDate: "",
-          endDate: "",
-          cities: [],
-        });
-        setImages([]);
+  
+      alert("Viaje creado con éxito ✈️");
+      console.log("Respuesta del servidor:", response.data);
+  
+      setFormData({
+        title: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        country: [],
+      });
+      setImages([]);
+  
+    } catch (err) {
+      console.error("Error al crear el viaje:", err);
+      if (err.response?.status === 403) {
+        alert("No tienes permiso para crear el viaje (403)");
       } else {
         alert("Error al crear el viaje 😕");
       }
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo conectar con el servidor");
     }
   };
 
@@ -110,22 +132,22 @@ export default function TripForm() {
 
     <div>
       <label>Ciudades</label>
-      <div className="city-input-group">
+      <div className="country-input-group">
         <input
           type="text"
-          value={cityInput}
-          onChange={(e) => setCityInput(e.target.value)}
+          value={countryInput}
+          onChange={(e) => setCountryInput(e.target.value)}
           placeholder="Introduce una ciudad"
         />
-        <button type="button" onClick={handleAddCity} className="add-city-btn">
+        <button type="button" onClick={handleAddCountry} className="add-country-btn">
           Añadir
         </button>
       </div>
-      <div className="cities-list">
-        {formData.cities.map((city) => (
-          <span key={city} className="city-chip">
-            {city}
-            <button type="button" onClick={() => handleRemoveCity(city)}>×</button>
+      <div className="country-list">
+        {formData.country.map((country) => (
+          <span key={country} className="country-chip">
+            {country}
+            <button type="button" onClick={() => handleRemoveCountry(country)}>×</button>
           </span>
         ))}
       </div>

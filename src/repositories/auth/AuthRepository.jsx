@@ -26,6 +26,9 @@ class AuthRepository {
       const token = response.data.idToken;
       const refreshToken = response.data.refreshToken;
 
+      // ✅ Guarda el token en localStorage
+      localStorage.setItem("token", token);
+
       return {
         token,
         refreshToken,
