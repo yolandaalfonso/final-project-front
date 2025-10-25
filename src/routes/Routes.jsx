@@ -14,7 +14,7 @@ export default function AppRoutes () {
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/tripForm" element={<TripForm />} />
-          <Route path="/trip/:id" element={<TripPage />} />
+          <Route path="/trips/:id" element={<TripPage />} />
          {/*  <Route path="/" element={<Home />} /> */}
           
           </Routes>  
