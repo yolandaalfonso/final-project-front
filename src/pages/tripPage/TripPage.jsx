@@ -88,16 +88,24 @@ export default function TripPage() {
 
       {/* ---------- LUGARES VISITADOS ---------- */}
       <section className="trip-locations">
-        <h3>Lugares Visitados</h3>
-        <ul>
-          {trip.country &&
-            trip.country.map((place, index) => (
+      <h3>Lugares Visitados</h3>
+      <ul>
+        {Array.isArray(trip.country)
+          ? trip.country.map((place, index) => (
               <li key={index}>
                 <span className="location-icon">📍</span> {place}
               </li>
-            ))}
-        </ul>
-      </section>
+            ))
+          : trip.country
+              ?.split(",") // separa el string en caso de venir así
+              .map((place, index) => (
+                <li key={index}>
+                  <span className="location-icon">📍</span> {place.trim()}
+                </li>
+              ))}
+      </ul>
+    </section>
+
     </div>
   );
 }
