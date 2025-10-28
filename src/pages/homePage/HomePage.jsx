@@ -9,8 +9,8 @@ const HomePage = () => {
     <div>
         <Hero text="Gestiona y comparte"
         backgroundImage={HeroImg}></Hero>
-        <Button text="Explora"></Button>
-        <Button text="Comienza tu viaje"></Button>
+        <Button text="Explora 🌍"></Button>
+        <Button text="Comienza tu viaje 🛫" type='secondary'></Button>
     </div>
   )
 }
