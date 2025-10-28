@@ -20,7 +20,8 @@ export default function TripForm() {
 
   // Manejar imágenes
   const handleFileChange = (e) => {
-    setImages([...e.target.files]);
+    const newFiles = Array.from(e.target.files);
+    setImages((prevImages) => [...prevImages, ...newFiles]);
   };
 
   // Añadir ciudades

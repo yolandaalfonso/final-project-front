@@ -33,11 +33,12 @@ export default function TripPage() {
       {/* ---------- ENCABEZADO DEL VIAJE ---------- */}
       <div className="trip-header">
         {trip.images && trip.images.length > 0 && (
-          <img
-            src={trip.images[0]}
-            alt={trip.title}
-            className="trip-main-image"
+          <img 
+            src={trip.images[0].url} 
+            alt={trip.title} 
+            className="trip-main-image" 
           />
+
         )}
         <h1 className="trip-title">{trip.title}</h1>
       </div>
@@ -76,13 +77,14 @@ export default function TripPage() {
         <div className="gallery-grid">
           {trip.images &&
             trip.images.slice(1, 4).map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={`Momento ${index + 1}`}
-                className="gallery-image"
-              />
-            ))}
+                <img 
+                  key={index}
+                  src={img.url} 
+                  alt={`Momento ${index + 1}`} 
+                  className="gallery-image" 
+                />
+              ))
+          }
         </div>
       </section>
 
