@@ -1,51 +1,66 @@
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "../../firebase/config";
 import AuthRepository from "../../repositories/auth/AuthRepository";
 
 class AuthService {
   constructor() {
     this.authRepository = new AuthRepository();
+    this.auth = getAuth(app);
   }
 
-  async loginUser(credentials) {
+  // 🔹 LOGIN → autentica con Firebase y guarda el ID token
+  async loginUser({ email, password }) {
     try {
-      const response = await this.authRepository.login(credentials);
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      const user = userCredential.user;
 
-      // 👇 Supongamos que el backend devuelve { token: "xxxx", userId: "..." }
-      if (response && response.token) {
-        localStorage.setItem("authToken", response.token);
-        console.log("✅ Token guardado en localStorage");
-      }
+      // 🔹 Aquí imprime UID y email de Firebase
+      console.log("🔹 Firebase UID (loginUser):", user.uid);
+      console.log("🔹 Firebase email (loginUser):", user.email);
 
-      return response;
+      const idToken = await userCredential.user.getIdToken();
+
+      localStorage.setItem("authToken", idToken);
+      console.log("✅ Token Firebase guardado en localStorage");
+
+      // Puedes guardar info del usuario si la necesitas
+      return {
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        token: idToken,
+      };
     } catch (error) {
       console.error("❌ Error en AuthService.loginUser:", error);
       throw error;
     }
   }
-  
 
-  /* // 🔹 Registro de usuario
-  async registerUser(data) {
-    try {
-      const response = await this.authRepository.register(data);
-      return response;
-    } catch (error) {
-      console.error("Error en AuthService.registerUser:", error);
-      throw error;
-    }
-  } */
+  // 🔹 OBTENER TOKEN ACTUAL
+  async getToken() {
+    const user = this.auth.currentUser;
+    if (!user) return null;
+    return await user.getIdToken();
+  }
 
-  // 🔹 Para cerrar sesión
-  logout() {
+  // 🔹 RENOVAR TOKEN (cuando expira)
+  async refreshToken() {
+    const user = this.auth.currentUser;
+    if (!user) return null;
+
+    const newToken = await user.getIdToken(true); // fuerza renovación
+    localStorage.setItem("authToken", newToken);
+    console.log("🔁 Token Firebase renovado y actualizado en localStorage");
+    return newToken;
+  }
+
+  // 🔹 CERRAR SESIÓN
+  async logout() {
+    await this.auth.signOut();
     localStorage.removeItem("authToken");
-    console.log("🚪 Sesión cerrada");
+    console.log("🚪 Sesión cerrada y token eliminado");
   }
-
-  // 🔹 Para obtener el token cuando lo necesites
-  getToken() {
-    return localStorage.getItem("authToken");
-  }
-
 }
 
 export default AuthService;
+
 

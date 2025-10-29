@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import AuthService from "../services/auth/AuthService"; // 👈 CAMBIO: Importa la clase, no la instancia
+import { getAuth } from "firebase/auth";
+
 
 const AuthContext = createContext();
 
@@ -16,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const token = authService.getToken();
+        const token = await authService.getToken();
         if (token) {
           // Si tienes un endpoint para obtener el usuario actual
           const currentUser = await authService.authRepository.getCurrentUser(token);
@@ -40,6 +42,18 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkSession();
+
+    const interval = setInterval(async () => {
+      const newToken = await authService.refreshToken();
+      if (newToken) {
+        console.log("🔁 Token Firebase renovado automáticamente");
+      }
+    }, 50 * 60 * 1000); // cada 50 minutos
+    
+  
+    return () => clearInterval(interval);
+
+    
   }, []);
 
   const login = async (email, password) => {

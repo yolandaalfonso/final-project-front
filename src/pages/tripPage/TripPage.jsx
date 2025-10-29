@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiClient from "../../services/apliClient";
 import "./TripPage.css";
+import Button from "../../components/button/Button";
 
 export default function TripPage() {
   const { id } = useParams();
@@ -57,8 +58,10 @@ export default function TripPage() {
           </div>
         </div>
         <div className="trip-actions">
-          <button className="btn-edit">✏️ Editar Viaje</button>
-          <button className="btn-share">📤 Compartir</button>
+          <Button text="Editar viaje ✏️" type="primary"></Button>
+          <Button text="📤 Compartir" type="secondary"></Button>
+          {/* <button className="btn-edit">✏️ Editar Viaje</button> */}
+          {/* <button className="btn-share">📤 Compartir</button> */}
         </div>
       </section>
 
