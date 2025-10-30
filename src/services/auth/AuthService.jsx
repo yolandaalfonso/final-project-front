@@ -5,7 +5,7 @@ import AuthRepository from "../../repositories/auth/AuthRepository";
 class AuthService {
   constructor() {
     this.authRepository = new AuthRepository();
-    this.auth = getAuth(app);
+    this.auth = getAuth(app); 
   }
 
   // 🔹 LOGIN → autentica con Firebase y guarda el ID token

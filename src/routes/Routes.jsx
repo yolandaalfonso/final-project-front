@@ -7,6 +7,7 @@ import AddTripForm from "../pages/tripForm/TripForm";
 import TripForm from "../pages/tripForm/TripForm";
 import TripPage from "../pages/tripPage/tripPage";
 import EditTripForm from "../pages/editTripForm/EditTripForm";
+import TravelerProfile from "../pages/travelerProfile/TravelerProfile";
 
 export default function AppRoutes () {
     return (
@@ -17,6 +18,8 @@ export default function AppRoutes () {
           <Route path="/tripForm" element={<TripForm />} />
           <Route path="/trips/:id" element={<TripPage />} />
           <Route path="/trips/:id/edit" element={<EditTripForm />} />
+          <Route path="/users/:id" element={<TravelerProfile />} />
+
          {/*  <Route path="/" element={<Home />} /> */}
           
           </Routes>  

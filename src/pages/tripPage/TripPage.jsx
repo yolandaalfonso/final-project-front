@@ -4,6 +4,8 @@ import apiClient from "../../services/apliClient";
 import "./TripPage.css";
 import Button from "../../components/button/Button";
 
+import calendarIcon from "../../assets/icons/dates-calendar.png"
+
 export default function TripPage() {
   const { id } = useParams();
   const [trip, setTrip] = useState(null);
@@ -53,7 +55,8 @@ export default function TripPage() {
             className="author-avatar"
           />
           <div>
-            <h4>{trip.traveler?.name || "Viajero anónimo"}</h4>
+            {/* <h4>{trip.traveler?.name || "Viajero anónimo"}</h4> */}
+            <h4>{trip.travelerUsername}</h4>
             <p>Creador del viaje</p>
           </div>
         </div>
@@ -68,10 +71,31 @@ export default function TripPage() {
       {/* ---------- DESCRIPCIÓN ---------- */}
       <section className="trip-description">
         <p>{trip.description}</p>
-        <p className="trip-dates">
-          <strong>Inicio:</strong> {trip.startDate} –{" "}
-          <strong>Fin:</strong> {trip.endDate}
-        </p>
+        {/** 👉 Función para formatear fechas */}
+        {(() => {
+          const formatDate = (isoDate) => {
+            if (!isoDate) return "";
+            return new Date(isoDate).toLocaleDateString("es-ES", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            });
+          };
+
+          return(
+          <p className="trip-dates">
+            <img 
+              src={calendarIcon} 
+              alt="Calendario" 
+              className="calendar-icon"
+            />{" "}
+            <strong>Inicio:</strong> {formatDate(trip.startDate)} –{" "}
+            <strong>Fin:</strong> {formatDate(trip.endDate)}
+            {/* <strong>Inicio:</strong> {trip.startDate} –{" "}
+            <strong>Fin:</strong> {trip.endDate} */}
+          </p>
+          );
+        })()}
       </section>
 
       {/* ---------- GALERÍA ---------- */}
