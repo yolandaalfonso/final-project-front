@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import apiClient from "../../services/apliClient"; // tu cliente axios
 import "./TravelerProfile.css";
 
+import TripCard from "../../components/tripCard/TripCard";
+
 export default function TravelerProfile() {
   const { id } = useParams(); // /profile/:id
   const [profile, setProfile] = useState(null);
@@ -13,13 +15,28 @@ export default function TravelerProfile() {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        // Llamadas paralelas a perfil y viajes
-        const [profileRes, tripsRes] = await Promise.all([
-          apiClient.get(`/profile/${id}`),
-          apiClient.get(`/profile/${id}/trips`),
-        ]);
-        setProfile(profileRes.data);
-        setTrips(tripsRes.data);
+        const userId = Number(id);
+        const tripsRes = await apiClient.get(`/trips/user/${userId}`);
+        const tripsData = tripsRes.data;
+        /* setTrips(tripsData); */
+        // 🔹 Filtra solo los viajes que tengan al menos una imagen
+        const tripsWithImages = tripsData.filter(trip => trip.images && trip.images.length > 0);
+        setTrips(tripsWithImages);
+
+
+        if (tripsData.length > 0) {
+        setProfile({
+            userName: tripsData[0].travelerUsername,
+            bio: "Sin biografía aún...",
+            avatar: "/avatars/default-avatar.png",
+        });
+        } else {
+        setProfile({
+            userName: "Usuario sin viajes",
+            bio: "",
+            avatar: "/avatars/default-avatar.png",
+        });
+        }
       } catch (err) {
         console.error("❌ Error al cargar perfil:", err);
         setError("No se pudo cargar la información del perfil.");
@@ -27,6 +44,7 @@ export default function TravelerProfile() {
         setLoading(false);
       }
     };
+
     fetchProfileData();
   }, [id]);
 
@@ -44,7 +62,7 @@ export default function TravelerProfile() {
       <div className="profile-header">
         <img
           src={profile.avatar || "/avatars/default-avatar.png"}
-          alt={profile.name}
+          alt={profile.userName}
           className="profile-avatar"
         />
         <h2>@{profile.userName}</h2>
@@ -76,6 +94,14 @@ export default function TravelerProfile() {
       <div className="profile-trips">
         <h3>Mis Viajes</h3>
         <div className="trips-grid">
+            {trips.length > 0 ? (
+                trips.map((trip) => <TripCard key={trip.id_trip} trip={trip} />)
+            ) : (
+                <p className="no-trips">Aún no has publicado viajes.</p>
+            )}
+        </div>
+
+        {/* <div className="trips-grid">
           {trips.length > 0 ? (
             trips.map((trip) => (
               <div key={trip.id_trip} className="trip-card">
@@ -90,9 +116,10 @@ export default function TravelerProfile() {
           ) : (
             <p className="no-trips">Aún no has publicado viajes.</p>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
 }
+
 
