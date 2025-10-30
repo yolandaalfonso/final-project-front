@@ -78,12 +78,24 @@
     line-height: 1.6;
     color: var(--color-text-secondary);
   }
-  
+
   .trip-dates {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .calendar-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  
+  /* .trip-dates {
     margin-top: 10px;
     font-size: 0.9rem;
     color: var(--color-text-secondary);
-  }
+  } */
   
   .trip-gallery {
     margin-top: 30px;

@@ -1,6 +1,6 @@
-// src/services/apiClient.js
 import axios from "axios";
-import { auth } from "./firebase"; // usa el que ya tienes
+import { auth} from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -9,23 +9,19 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   async (config) => {
-    const user = auth.currentUser;
+    const firebaseUser = await new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        unsubscribe();
+        if (user) resolve(user);
+        else reject("Usuario no logueado");
+      });
+    });
 
-    if (user) {
-      // 🔁 Fuerza obtener un token nuevo cada vez
-      const freshToken = await user.getIdToken(true);
-      localStorage.setItem("token", freshToken);
-      config.headers.Authorization = `Bearer ${freshToken}`;
-      console.log("✅ Token renovado y enviado");
-    } else {
-      const token = localStorage.getItem("token");
-      if (token) config.headers.Authorization = `Bearer ${token}`;
-    }
-
+    const freshToken = await firebaseUser.getIdToken(true);
+    config.headers.Authorization = `Bearer ${freshToken}`;
     return config;
   },
   (error) => Promise.reject(error)
 );
 
 export default apiClient;
-
