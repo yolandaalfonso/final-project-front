@@ -135,9 +135,83 @@
     opacity: 0.5;
     pointer-events: none;
   }
+
+  /* Search Container */
+.search-container {
+    max-width: 600px; /* Reducido de 800px a 600px (aprox 60%) */
+    margin: 0 auto 32px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .search-input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 20px;
+    color: #9ca3af;
+    pointer-events: none;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 16px 20px 16px 52px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.2s;
+    background-color: white;
+    color: var(--color-text-secondary);
+  }
+  
+  .search-input:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  }
+  
+  .search-input::placeholder {
+    color: #9ca3af;
+  }
+  
+  .search-button {
+    padding: 16px 32px; /* Reducido de 40px a 32px */
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  
+  .search-button:hover {
+    background-color: #ff5252;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+    font-size: 16px;
+  }
+  
+  .no-results p {
+    margin: 0;
+  }
   
   /* Responsive Design */
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .trip-card-image-container {
       height: 200px;
     }
@@ -158,5 +232,97 @@
     .action-button {
       width: 32px;
       height: 32px;
+    }
+  } */
+   /* Responsive Design */
+@media (max-width: 768px) {
+    .trip-card {
+      flex-direction: row; /* Horizontal en móvil */
+      height: auto;
+    }
+  
+    .trip-card-image-container {
+      width: 140px; /* Ancho fijo para la imagen */
+      min-width: 140px;
+      height: auto;
+      min-height: 160px;
+    }
+  
+    .trip-card-image {
+      height: 100%;
+    }
+  
+    .trip-card-content {
+      padding: 16px;
+      flex: 1;
+    }
+  
+    .trip-card-title {
+      font-size: 16px;
+    }
+  
+    .trip-card-actions {
+      top: 12px;
+      right: 12px;
+    }
+  
+    .action-button {
+      width: 32px;
+      height: 32px;
+    }
+  
+    .action-icon {
+      width: 18px;
+      height: 18px;
+    }
+  
+    .trip-card-creator {
+      margin-top: 12px;
+    }
+  
+    .creator-avatar {
+      width: 28px;
+      height: 28px;
+    }
+  
+    .creator-name {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .explore-hero {
+      padding: 40px 20px 60px;
+    }
+  
+    .explore-title {
+      font-size: 36px;
+    }
+  
+    .search-container {
+      flex-direction: row; /* Mantener en línea */
+      max-width: 100%;
+    }
+  
+    .search-button {
+      padding: 16px 24px; /* Botón más compacto en móvil */
+    }
+  
+    .recommendations-section {
+      padding: 0 20px;
+    }
+  
+    .trips-grid {
+      grid-template-columns: 1fr; /* Una columna en móvil */
+      gap: 16px;
+    }
+  
+    .filters-container {
+      gap: 8px;
+    }
+  
+    .filter-select {
+      flex: 1;
+      min-width: 140px;
     }
   }

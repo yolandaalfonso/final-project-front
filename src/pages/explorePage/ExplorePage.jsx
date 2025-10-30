@@ -42,6 +42,17 @@ const ExplorePage = () => {
     }
   ];
 
+  // Función para filtrar los viajes
+  const filteredTrips = trips.filter(trip => {
+    if (!searchQuery.trim()) return true; // Si no hay búsqueda, mostrar todos
+    
+    const query = searchQuery.toLowerCase();
+    const titleMatch = trip.title.toLowerCase().includes(query);
+    const locationMatch = trip.location.toLowerCase().includes(query);
+    
+    return titleMatch || locationMatch;
+  });
+
   return (
     <div className="explore-page">
       {/* Hero Section */}
@@ -93,15 +104,24 @@ const ExplorePage = () => {
       <div className="recommendations-section">
         <h2 className="recommendations-title">Recomendaciones para ti</h2>
         
-        <div className="trips-grid">
-          {trips.map(trip => (
-            <ExploreTripCard key={trip.id} {...trip} />
-          ))}
-        </div>
+        {/* Mensaje si no hay resultados */}
+        {filteredTrips.length === 0 ? (
+          <div className="no-results">
+            <p>No se encontraron viajes que coincidan con "{searchQuery}"</p>
+          </div>
+        ) : (
+          <div className="trips-grid">
+            {filteredTrips.map(trip => (
+              <ExploreTripCard key={trip.id} {...trip} />
+            ))}
+          </div>
+        )}
 
-        <div className="load-more-container">
-          <button className="load-more-button">Cargar más</button>
-        </div>
+        {filteredTrips.length > 0 && (
+          <div className="load-more-container">
+            <button className="load-more-button">Cargar más</button>
+          </div>
+        )}
       </div>
     </div>
   );
