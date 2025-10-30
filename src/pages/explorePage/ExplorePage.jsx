@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
-import ExploreTripCard from './ExploreTripCard';
+import ExploreTripCard from '../../components/exploreTripCard/ExploreTripCard';
+import searchIcon from '../../assets/icons/search.png';
 import './ExplorePage.css';
+import Button from '../../components/button/Button';
 
 const ExplorePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -46,12 +46,12 @@ const ExplorePage = () => {
     <div className="explore-page">
       {/* Hero Section */}
       <div className="explore-hero">
-        <h1 className="explore-title">Encuentra tu Próxima Aventura</h1>
-        <p className="explore-subtitle">Busca viajes por ciudad, país o región...</p>
+        <h1 className="explore-title">Encuentra tu próxima aventura</h1>
+        <p className="explore-subtitle">Busca viajes por ciudad, país o duración...</p>
         
         <div className="search-container">
           <div className="search-input-wrapper">
-            <Search className="search-icon" size={20} />
+            <img src={searchIcon} alt="Search" className="search-icon" />
             <input
               type="text"
               className="search-input"
@@ -60,7 +60,7 @@ const ExplorePage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <button className="search-button">Buscar</button>
+          <Button text='Buscar' type='primary'></Button>
         </div>
 
         {/* Filters */}
@@ -85,13 +85,6 @@ const ExplorePage = () => {
             <option>Económico</option>
             <option>Medio</option>
             <option>Premium</option>
-          </select>
-          
-          <select className="filter-select">
-            <option>Puntuación</option>
-            <option>5 estrellas</option>
-            <option>4+ estrellas</option>
-            <option>3+ estrellas</option>
           </select>
         </div>
       </div>
