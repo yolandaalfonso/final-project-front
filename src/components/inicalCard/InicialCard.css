@@ -1,0 +1,12 @@
+.card-inicio-logo{
+    border-radius: 50px;
+    width: auto;
+    background-color: #e8f9f5;
+}
+
+.card-container{
+    border: 1px #f6f2f2;
+    flex: 1; /* Todas ocupan el mismo espacio */
+    max-width: 350px; /* Ancho máximo para que no se estiren demasiado */
+    min-width: 280px; /* Ancho mínimo */
+}
