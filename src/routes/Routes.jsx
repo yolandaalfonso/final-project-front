@@ -13,18 +13,18 @@ import ExplorePage from "../pages/explorePage/ExplorePage";
 export default function AppRoutes () {
     return (
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/tripForm" element={<TripForm />} />
-          <Route path="/explore" element={<ExplorePage />} />
-          <Route path="/trips/:id" element={<TripPage />} />
-          <Route path="/trips/:id/edit" element={<EditTripForm />} />
-          <Route path="/trips/user/:id" element={<TravelerProfile />} />
+            <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/register" element={<RegistrationPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/tripForm" element={<TripForm />} />
+                <Route path="/explore" element={<ExplorePage />} />
+                <Route path="/trips/:id" element={<TripPage />} />
+                <Route path="/trips/:id/edit" element={<EditTripForm />} />
+                <Route path="/trips/user/:id" element={<TravelerProfile />} />
 
-         {/*  <Route path="/" element={<Home />} /> */}
-          
-          </Routes>  
-    )
+            </Route>
+        </Routes>  
+    );
   
 }
