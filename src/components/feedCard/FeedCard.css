@@ -1,6 +1,6 @@
 /* Contenedor principal de la tarjeta */
 .feed-card-container {
-    background: #ffffff;
+    background: var(--color-background);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     overflow: hidden; 
@@ -29,6 +29,7 @@
     font-size: 1.6em;
     font-weight: 700;
     margin: 0 0 10px 0;
+    color: var(--color-text);
 }
 
 /* Metadatos (Autor y fecha) */
@@ -106,6 +107,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    color: var(--color-text);
 }
 
 .highlight-item {

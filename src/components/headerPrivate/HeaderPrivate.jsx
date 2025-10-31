@@ -20,7 +20,7 @@ const { user } = useAuth();
       </div>
 
       <nav className="header-nav">
-        <NavLink to="/" className="nav-link">
+        <NavLink to={`/feed/${userId}`} className="nav-link">
           Inicio
         </NavLink>
         <NavLink to="/explore" className="nav-link">

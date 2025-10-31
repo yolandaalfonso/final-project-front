@@ -19,7 +19,13 @@ const FeedCard = ({ trip }) => {
   const authorAvatar = trip.traveler?.avatar || "/avatars/default-avatar.png";
   
   // Puntos destacados (los 3 primeros, si es un array)
-  const highlights = Array.isArray(country) ? country.slice(0, 3) : [];
+  // Normalizamos 'country' venga como array o como string
+    const highlights = Array.isArray(country)
+    ? country.slice(0, 3)
+    : typeof country === "string"
+    ? country.split(",").map(c => c.trim()).slice(0, 3)
+    : [];
+
 
   // Datos de interacción (ejemplo simple, usa los datos reales si los recibes en 'trip')
   const likes = "1.2K Likes";
