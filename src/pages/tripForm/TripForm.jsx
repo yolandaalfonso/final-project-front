@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import apiClient from "../../services/apliClient";
+import { getAuth } from "firebase/auth";
 import './TripForm.css'
 
 export default function TripForm() {
@@ -45,6 +46,18 @@ export default function TripForm() {
   // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+      // 🔹 Obtener el usuario actual de Firebase
+    const auth = getAuth(); // importa getAuth desde firebase/auth
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      console.error("❌ No hay usuario logueado en Firebase");
+      return;
+    }
+
+    console.log("🔹 UID que voy a enviar al backend:", currentUser.uid);
+    console.log("🔹 Email que voy a enviar al backend:", currentUser.email);
   
     const data = new FormData();
     /* data.append("title", formData.title);

@@ -15,6 +15,20 @@ class AuthRepository {
   async login(credentials) {
     try {
       const response = await this.api.post("/auth/login", credentials);
+
+      // 👇 Interceptor para incluir el token en todas las peticiones
+      this.api.interceptors.request.use(async (config) => {
+        const token = localStorage.getItem("authToken"); // o "token", según cómo lo guardes
+
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+      }, (error) => {
+        return Promise.reject(error);
+      });
+
   
       // Validar que la respuesta tenga los datos esperados
       if (!response.data || !response.data.idToken) {

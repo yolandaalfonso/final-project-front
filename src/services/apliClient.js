@@ -1,18 +1,24 @@
 import axios from "axios";
+import { auth} from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
-// 🔹 Interceptor: añade automáticamente el token a cada request
 apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    console.log("TOKEN ENVIADO:", token);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  async (config) => {
+    const firebaseUser = await new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        unsubscribe();
+        if (user) resolve(user);
+        else reject("Usuario no logueado");
+      });
+    });
+
+    const freshToken = await firebaseUser.getIdToken(true);
+    config.headers.Authorization = `Bearer ${freshToken}`;
     return config;
   },
   (error) => Promise.reject(error)

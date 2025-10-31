@@ -1,0 +1,24 @@
+.card-home-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    /* align-items: flex-start;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto; */
+  }
+  
+  /* Responsive para móviles */
+  @media (max-width: 768px) {
+    .card-home-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .card-container {
+        max-width: 90%; /* que no sean demasiado grandes */
+      }
+  }
