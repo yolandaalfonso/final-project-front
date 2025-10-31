@@ -11,6 +11,7 @@ import TravelerProfile from "../pages/travelerProfile/TravelerProfile";
 import ExplorePage from "../pages/explorePage/ExplorePage";
 
 import Layout from "../layout/Layout";
+import FeedPage from "../pages/feedPage/FeedPage";
 
 export default function AppRoutes () {
     return (
@@ -21,6 +22,7 @@ export default function AppRoutes () {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/tripForm" element={<TripForm />} />
                 <Route path="/explore" element={<ExplorePage />} />
+                <Route path="/feed/:id" element={<FeedPage/>}></Route>
                 <Route path="/trips/:id" element={<TripPage />} />
                 <Route path="/trips/:id/edit" element={<EditTripForm />} />
                 <Route path="/trips/user/:id" element={<TravelerProfile />} />
