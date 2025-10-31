@@ -6,16 +6,17 @@ import Footer from "../components/footer/Footer";
 
 export default function Layout() {
   const location = useLocation();
-  const publicRoutes = ["/", "/login", "/register"];
+  const publicRoutes = ["/", "/register"];
+  const isLoginPage = location.pathname === "/login";
   const isPublic = publicRoutes.includes(location.pathname);
 
   return (
     <>
-      {isPublic ? <HeaderPublic /> : <HeaderPrivate />}
+      {!isLoginPage && (isPublic ? <HeaderPublic /> : <HeaderPrivate />)}
       <main className="main-content">
         <Outlet />
       </main>
-      <Footer />
+      {!isLoginPage && <Footer />}
     </>
   );
 }

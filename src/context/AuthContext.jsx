@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import AuthService from "../services/auth/AuthService"; // 👈 CAMBIO: Importa la clase, no la instancia
 import { getAuth } from "firebase/auth";
 
+import { useNavigate } from "react-router-dom";
+
 
 const AuthContext = createContext();
 
@@ -11,6 +13,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   // 👇 Crea una instancia de la clase AuthService
   const authService = new AuthService();
@@ -72,11 +76,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    authService.logout(); // 👈 Cambiado: tu AuthService no tiene logoutUser(), solo logout()
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem("userId");
+    try {
+      await authService.logout(); // 👈 importante el await
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem("userId");
+      navigate("/login");
+    }
   };
+  
 
   const value = {
     user,

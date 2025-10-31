@@ -19,10 +19,10 @@ export default function HeaderPublic() {
           <span>WanderLog</span>
         </div>
 
-        <ul className="nav-links">
+        {/* <ul className="nav-links">
           <li><a href="#explorar">Explorar</a></li>
           <li><a href="#nosotros">Sobre Nosotros</a></li>
-        </ul>
+        </ul> */}
 
         <div className="auth-buttons">
           <Button text="Iniciar Sesión" type="tertiary" onClick={handleLoginClick}></Button>
