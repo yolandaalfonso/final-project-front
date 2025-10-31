@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 import './LoginPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 const LoginPage = () => {
     /* console.log("📢 LoginPage se está renderizando"); */
-
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm(); 
+    const { user, login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const { login } = useAuth();
+
+  // Redirigir cuando el usuario se autentique
+  useEffect(() => {
+    if (isAuthenticated && user?.id_user) {
+      console.log('✅ Usuario autenticado, redirigiendo...', user);
+      navigate(`/trips/user/${user.id_user}`);
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -20,7 +28,7 @@ const LoginPage = () => {
 
     try {
       await login(data.email, data.password);
-      reset();
+      // El useEffect se encargará de la navegación
     } catch (error) {
       console.error('Error en el login:', error);
       setSubmitError(error.message || 'Error al iniciar sesión');
@@ -28,7 +36,7 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="login-page">
       <h2 className="login-modal__title">Iniciar sesión</h2>

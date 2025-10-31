@@ -4,6 +4,8 @@ import apiClient from "../../services/apliClient"; // tu cliente axios
 import "./TravelerProfile.css";
 
 import TripCard from "../../components/tripCard/TripCard";
+import Button from "../../components/button/Button";
+import TripForm from "../tripForm/TripForm";
 
 export default function TravelerProfile() {
   const { id } = useParams(); // /profile/:id
@@ -12,31 +14,101 @@ export default function TravelerProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const userId = Number(id);
+        console.log("🔎 TravelerProfile: id param =", id, " -> userId =", userId);
+  
+        // Petición de viajes
         const tripsRes = await apiClient.get(`/trips/user/${userId}`);
-        const tripsData = tripsRes.data;
-        /* setTrips(tripsData); */
-        // 🔹 Filtra solo los viajes que tengan al menos una imagen
-        const tripsWithImages = tripsData.filter(trip => trip.images && trip.images.length > 0);
+        console.log("🔁 tripsRes.status =", tripsRes.status, "tripsRes.data =", tripsRes.data);
+  
+        // Asegurarnos de trabajar siempre con un array
+        const tripsData = Array.isArray(tripsRes.data) ? tripsRes.data : [];
+  
+        // Filtrar viajes con imágenes
+        const tripsWithImages = tripsData.filter(
+          (trip) => trip.images && trip.images.length > 0
+        );
         setTrips(tripsWithImages);
-
-
+  
+        // Intentamos obtener userName de distintas fuentes (orden de preferencia)
+        let resolvedUserName = null;
+  
+        // 1) Si hay viajes, tomamos travelerUsername del primero (si existe)
         if (tripsData.length > 0) {
-        setProfile({
-            userName: tripsData[0].travelerUsername,
-            bio: "Sin biografía aún...",
-            avatar: "/avatars/default-avatar.png",
-        });
-        } else {
-        setProfile({
-            userName: "Usuario sin viajes",
-            bio: "",
-            avatar: "/avatars/default-avatar.png",
-        });
+          resolvedUserName = tripsData[0].travelerUsername || null;
         }
+  
+        // 2) Si no lo hemos resuelto, buscamos en localStorage (varias claves comunes)
+        if (!resolvedUserName) {
+          try {
+            const candidateKeys = ["loginUser", "user", "currentUser", "authUser"];
+            for (const key of candidateKeys) {
+              const raw = localStorage.getItem(key);
+              if (!raw) continue;
+              try {
+                const parsed = JSON.parse(raw);
+                // buscamos varias propiedades posibles
+                const candidate = parsed?.userName || parsed?.username || parsed?.name || parsed?.user?.userName;
+                if (candidate) {
+                  resolvedUserName = candidate;
+                  console.log(`📦 nombre encontrado en localStorage key='${key}':`, resolvedUserName);
+                  break;
+                }
+              } catch (e) {
+                // si no es JSON, usar raw string
+                if (typeof raw === "string" && raw.trim()) {
+                  resolvedUserName = raw;
+                  console.log(`📦 nombre raw en localStorage key='${key}':`, resolvedUserName);
+                  break;
+                }
+              }
+            }
+          } catch (errLS) {
+            console.warn("⚠️ Error leyendo localStorage:", errLS);
+          }
+        }
+  
+        // 3) Si aún no lo tenemos, intentar pedir al backend el usuario por id (si existe endpoint)
+        if (!resolvedUserName) {
+          try {
+            // Intenta este endpoint: /users/{id} — si no existe devolverá 404 y entra al catch
+            const userResById = await apiClient.get(`trips/user/${userId}`);
+            console.log("🔁 userResById.status =", userResById.status, "data =", userResById.data);
+            // Adaptar la propiedad según tu DTO (userName, name, username...)
+            resolvedUserName = userResById.data?.userName || userResById.data?.username || userResById.data?.name || null;
+          } catch (errUserById) {
+            console.log("ℹ️ No existe /users/{id} o fallo obteniendo usuario por id:", errUserById?.response?.status);
+            // Si no existe /users/{id}, intentar por uid si lo tienes en localStorage
+            try {
+              const stored = JSON.parse(localStorage.getItem("loginUser") || "null");
+              const maybeUid = stored?.uid || stored?.user?.uid;
+              if (maybeUid) {
+                const userResByUid = await apiClient.get(`/auth/user/${maybeUid}`);
+                console.log("🔁 userResByUid.status =", userResByUid.status, "data =", userResByUid.data);
+                resolvedUserName = userResByUid.data?.userName || userResByUid.data?.username || userResByUid.data?.name || null;
+              }
+            } catch (errUidLookup) {
+              console.log("ℹ️ No se pudo obtener usuario por UID o no hay UID en localStorage:", errUidLookup?.response?.status || errUidLookup);
+            }
+          }
+        }
+  
+        // 4) Fallback final
+        if (!resolvedUserName) {
+          resolvedUserName = "Usuario sin viajes";
+        }
+  
+        // Finalmente setear profile (si no había datos, se pone nombre resuelto)
+        setProfile({
+          userName: resolvedUserName,
+          bio: "Sin biografía aún...",
+          avatar: "/avatars/default-avatar.png",
+        });
+  
       } catch (err) {
         console.error("❌ Error al cargar perfil:", err);
         setError("No se pudo cargar la información del perfil.");
@@ -44,9 +116,12 @@ export default function TravelerProfile() {
         setLoading(false);
       }
     };
-
+  
     fetchProfileData();
   }, [id]);
+  
+  
+  
 
   if (loading) return <div className="profile-loading">Cargando perfil...</div>;
   if (error) return <div className="profile-error">{error}</div>;

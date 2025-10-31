@@ -41,3 +41,14 @@
           font-size: 2rem;
         }
   }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 2rem 0; /* 32px arriba y abajo */
+    }
+  
+    .hero-title {
+      font-size: 1.5rem; /* más compacto en móviles */
+    }
+  }
+  

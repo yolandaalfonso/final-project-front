@@ -1,6 +1,7 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../../firebase/config";
 import AuthRepository from "../../repositories/auth/AuthRepository";
+import apiClient from "../apliClient";
 
 class AuthService {
   constructor() {
@@ -23,11 +24,22 @@ class AuthService {
       localStorage.setItem("authToken", idToken);
       console.log("✅ Token Firebase guardado en localStorage");
 
+      // 🔹 Llamada al backend para obtener id_user
+      const res = await apiClient.get(`/auth/user/${user.uid}`);
+
+      if (!res?.data?.id_user) {
+        throw new Error("⚠️ No se encontró un usuario con ese UID en la base de datos");
+      }
+      // se espera que res.data tenga { id_user, uid, email, ... }
+      const backendUser = res.data;
+      console.log("🧩 Usuario backend encontrado:", backendUser);
+
       // Puedes guardar info del usuario si la necesitas
       return {
         email: userCredential.user.email,
         uid: userCredential.user.uid,
         token: idToken,
+        id_user: backendUser.id_user,
       };
     } catch (error) {
       console.error("❌ Error en AuthService.loginUser:", error);
