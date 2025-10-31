@@ -1,8 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./HeaderPrivate.css";
 
 export default function HeaderPrivate() {
+
+const { user } = useAuth();
+
+//fallback para evitar errores si user es null
+  const userId = user?.id_user || user?.userId || ""; 
+  const avatarUrl = user?.avatar || "https://goo.su/XF9tCz";
+
+
   return (
     <header className="header-private">
       <div className="header-left">
@@ -12,16 +21,16 @@ export default function HeaderPrivate() {
 
       <nav className="header-nav">
         <NavLink to="/" className="nav-link">
-          Home
+          Inicio
         </NavLink>
         <NavLink to="/explore" className="nav-link">
-          Explore
+          Explora
         </NavLink>
         <NavLink to="/tripForm" className="nav-link">
-          Create Trip
+          Crea un viaje
         </NavLink>
-        <NavLink to="/profile" className="nav-link">
-          My Profile
+        <NavLink to={`/trips/user/${user.id_user}`} className="nav-link">
+          Mi perfil
         </NavLink>
       </nav>
 
@@ -30,7 +39,7 @@ export default function HeaderPrivate() {
           🔔
         </button>
         <img
-          src="https://i.pravatar.cc/40" // puedes cambiar por tu imagen de perfil real
+           src={avatarUrl}// puedes cambiar por tu imagen de perfil real
           alt="User avatar"
           className="avatar"
         />
