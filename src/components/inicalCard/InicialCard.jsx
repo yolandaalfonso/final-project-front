@@ -11,7 +11,7 @@ const InicialCard = ({ img, title = "Registra tus aventuras", text = "Crea un di
         <div className="card-inicio-logo">
             <img src={img} alt="" />
         </div>
-        <h3>{title}</h3>
+        <h4>{title}</h4>
         <p>{text}</p>
       </div>
     )

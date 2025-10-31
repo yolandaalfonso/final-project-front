@@ -11,10 +11,10 @@
   .navbar {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px 28px; /* antes era 16px 24px */
+    padding: 8px 20px; /* antes era 16px 24px */
     display: flex;
     align-items: center; /* centrado vertical */
-    gap: 32px; /* separación general entre bloques */
+    gap: 24px; /* separación general entre bloques */
   }
   
   /* El logo y el texto */
@@ -89,4 +89,41 @@
   .btn-primary:hover {
     background-color: #e05353;
   } */
+
+  @media (max-width: 768px) {
+    .header .navbar {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+    }
+  
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .nav-links {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .nav-links a {
+      font-size: 14px;
+    }
+  
+    .auth-buttons {
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      align-items: center;
+    }
+  
+    .auth-buttons .button {
+      width: 80%;
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+  }
+  
   

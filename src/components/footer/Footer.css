@@ -3,8 +3,8 @@
     border-top: 1px solid #eee;
     text-align: center;
     padding: 40px 20px;
-    color: #777;
-    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
   }
   
   .footer-links {
@@ -37,5 +37,37 @@
   .footer-copy {
     font-size: 0.85rem;
     color: #999;
+  }
+  
+  /* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+    .footer {
+      padding: 20px;
+      text-align: center;
+    }
+  
+    .footer-links {
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+  
+    .footer-links a {
+      font-size: 14px;
+    }
+  
+    .footer-icons {
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+  
+    .footer-icons i {
+      font-size: 20px;
+      margin: 0 8px;
+    }
+  
+    .footer-copy {
+      font-size: 12px;
+    }
   }
   

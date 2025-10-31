@@ -1,12 +1,48 @@
+.card-container {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    max-width: 250px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--color-text-secondary);
+  }
+  
+  /* Contenedor redondo del icono */
+  .card-inicio-logo {
+    width: 60px;       /* tamaño del círculo */
+    height: 60px;      /* mismo que el ancho */
+    border-radius: 50%; /* hace el div completamente circular */
+    background-color: #f0f0f0; /* color de fondo opcional */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* asegura que la imagen no sobresalga */
+  }
+  
+  /* Imagen del icono dentro del círculo */
+  .card-inicio-logo img {
+    width: 32px; /* tamaño más pequeño */
+    height: 32px;
+    object-fit: contain;
+  }
+  
+
 .card-inicio-logo{
     border-radius: 50px;
     width: auto;
     background-color: #e8f9f5;
 }
 
-.card-container{
-    border: 1px #f6f2f2;
-    flex: 1; /* Todas ocupan el mismo espacio */
-    max-width: 350px; /* Ancho máximo para que no se estiren demasiado */
-    min-width: 280px; /* Ancho mínimo */
+
+h4{
+    color: var(--color-text);
+}
+
+p{
+    color: var( --color-text-secondary);
 }
