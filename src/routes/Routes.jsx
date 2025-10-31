@@ -10,6 +10,8 @@ import EditTripForm from "../pages/editTripForm/EditTripForm";
 import TravelerProfile from "../pages/travelerProfile/TravelerProfile";
 import ExplorePage from "../pages/explorePage/ExplorePage";
 
+import Layout from "../layout/Layout";
+
 export default function AppRoutes () {
     return (
         <Routes>

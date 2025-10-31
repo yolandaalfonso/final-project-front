@@ -1,12 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./HeaderPublic.css";
+import Button from "../button/Button";
+import RegistrationPage from "../../pages/registration/RegistrationPage";
 
 export default function HeaderPublic() {
+
+    const navigate = useNavigate();
+
+    const handleRegisterClick = () => navigate("/register");
+    const handleLoginClick = () => navigate("/login");
+
   return (
     <header className="header">
       <nav className="navbar">
         <div className="logo">
-          <img src="/logo.svg" alt="WanderLog" />
+          <img src="/logo.svg" alt="WanderLog logo" />
           <span>WanderLog</span>
         </div>
 
@@ -16,8 +25,8 @@ export default function HeaderPublic() {
         </ul>
 
         <div className="auth-buttons">
-          <button className="btn-outline">Iniciar Sesión</button>
-          <button className="btn-primary">Registrarse</button>
+          <Button text="Iniciar Sesión" type="tertiary" onClick={handleLoginClick}></Button>
+          <Button text="Registrate" type="primary" onClick={handleRegisterClick} />
         </div>
       </nav>
     </header>

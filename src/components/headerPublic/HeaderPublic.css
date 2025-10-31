@@ -7,15 +7,17 @@
     z-index: 10;
   }
   
+  /* Reducimos altura y centramos el contenido */
   .navbar {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 16px 24px;
+    padding: 10px 28px; /* antes era 16px 24px */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    align-items: center; /* centrado vertical */
+    gap: 32px; /* separación general entre bloques */
   }
   
+  /* El logo y el texto */
   .logo {
     display: flex;
     align-items: center;
@@ -25,15 +27,18 @@
   }
   
   .logo img {
-    height: 28px;
-    width: 28px;
+    height: 24px; /* un poco más pequeño */
+    width: 24px;
     margin-right: 8px;
   }
   
+  /* Menú centrado visualmente */
   .nav-links {
     display: flex;
     list-style: none;
-    gap: 32px;
+    gap: 28px;
+    margin-left: auto; /* empuja los enlaces al centro */
+    margin-right: auto;
   }
   
   .nav-links a {
@@ -47,13 +52,17 @@
     color: #111;
   }
   
+  /* Botones hacia la derecha */
   .auth-buttons {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto; /* empuja a la derecha */
   }
   
+  /* Botones */
   .btn-outline {
-    padding: 8px 14px;
+    padding: 6px 12px;
     border: 1px solid #ccc;
     background: transparent;
     border-radius: 6px;
@@ -66,8 +75,8 @@
     background-color: #f7f7f7;
   }
   
-  .btn-primary {
-    padding: 8px 16px;
+  /* .btn-primary {
+    padding: 6px 14px;
     border: none;
     background-color: #f56565;
     color: white;
@@ -79,5 +88,5 @@
   
   .btn-primary:hover {
     background-color: #e05353;
-  }
+  } */
   
