@@ -16,11 +16,12 @@ const LoginPage = () => {
 
   // Redirigir cuando el usuario se autentique
   useEffect(() => {
-    if (isAuthenticated && user?.id_user) {
+    if (isAuthenticated && user?.id_user &&
+      location.pathname === "/login") {
       console.log('✅ Usuario autenticado, redirigiendo...', user);
       navigate(`/trips/user/${user.id_user}`);
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [isAuthenticated, user, navigate, location.pathname]);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -39,6 +40,7 @@ const LoginPage = () => {
   
   return (
     <div className="login-page">
+      <Link to="/" className="login-form__back-link">🔙 Volver</Link>
       <h2 className="login-modal__title">Iniciar sesión</h2>
 
       <form className="login-modal__form" onSubmit={handleSubmit(onSubmit)}>

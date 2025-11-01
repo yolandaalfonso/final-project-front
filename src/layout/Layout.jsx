@@ -6,17 +6,22 @@ import Footer from "../components/footer/Footer";
 
 export default function Layout() {
   const location = useLocation();
-  const publicRoutes = ["/", "/register"];
-  const isLoginPage = location.pathname === "/login";
+
+  // Rutas donde NO queremos mostrar header ni footer
+  const hideLayoutRoutes = ["/login", "/register"];
+
+  const publicRoutes = ["/"];
+
+  const isHidden = hideLayoutRoutes.includes(location.pathname);
   const isPublic = publicRoutes.includes(location.pathname);
 
   return (
     <>
-      {!isLoginPage && (isPublic ? <HeaderPublic /> : <HeaderPrivate />)}
+      {!isHidden && (isPublic ? <HeaderPublic /> : <HeaderPrivate />)}
       <main className="main-content">
         <Outlet />
       </main>
-      {!isLoginPage && <Footer />}
+      {!isHidden && <Footer />}
     </>
   );
 }

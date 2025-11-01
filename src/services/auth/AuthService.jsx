@@ -1,12 +1,14 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../firebase/config";
+/* import { app } from "../../firebase/config"; */
+import { auth } from "../firebase";
 import AuthRepository from "../../repositories/auth/AuthRepository";
 import apiClient from "../apliClient";
 
 class AuthService {
   constructor() {
     this.authRepository = new AuthRepository();
-    this.auth = getAuth(app); 
+    /* this.auth = getAuth(app); */ 
+    this.auth = auth;
   }
 
   // 🔹 LOGIN → autentica con Firebase y guarda el ID token

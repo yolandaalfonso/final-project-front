@@ -8,6 +8,8 @@ import mapIcon from '../../assets/icons/map.png'
 import friendsIcon from '../../assets/icons/friends.png'
 import compassIcon from '../../assets/icons/compass.png'
 
+import './HomePage.css'
+
 
 const HomePage = () => {
   return (
