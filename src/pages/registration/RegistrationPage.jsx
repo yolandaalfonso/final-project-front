@@ -108,7 +108,7 @@ const RegistrationPage = () => {
                 }`}
               />
               {errors.username && (
-                <p className="registration-form__error">{errors.username.message}</p>
+                <p className="registration-form__error">{errors.userName.message}</p>
               )}
             </div>
 
