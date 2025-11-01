@@ -40,6 +40,7 @@ const LoginPage = () => {
   
   return (
     <div className="login-page">
+      <Link to="/" className="login-form__back-link">🔙 Volver</Link>
       <h2 className="login-modal__title">Iniciar sesión</h2>
 
       <form className="login-modal__form" onSubmit={handleSubmit(onSubmit)}>

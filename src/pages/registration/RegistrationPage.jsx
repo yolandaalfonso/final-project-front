@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SuccessModal from '../../components/successModal/SuccessModal';
 import registerService from '../../services/register/RegisterService';
 import { uploadImageToFirebase } from "../../utils/uploadImage";
+import { Link } from 'react-router-dom';
 import './RegistrationPage.css';
 
 const RegistrationPage = () => {
@@ -90,6 +91,7 @@ const RegistrationPage = () => {
 
           {/* Datos de registro */}
           <section className="registration-form__section">
+            <Link to="/" className="registration-form__back-link">🔙 Volver</Link>
             <h2 className="registration-form__section-title">Registro</h2>
 
             {/* Username */}
