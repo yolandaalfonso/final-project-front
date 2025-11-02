@@ -2,7 +2,7 @@
 .form-container {
     max-width: 600px;
     margin: 2rem auto;
-    background-color: #ffffff;
+    background-color: #f9fafb;
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -41,6 +41,8 @@
     padding: 0.6rem;
     font-size: 1rem;
     transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #ffe2df;
+    color: var(--color-text-secondary);
   }
   
   input[type="text"]:focus,
@@ -49,6 +51,7 @@
     border-color: #007bff;
     box-shadow: 0 0 3px rgba(0, 123, 255, 0.3);
     outline: none;
+    background-color: #ffe2df;
   }
   
   textarea {
@@ -70,7 +73,7 @@
   /* --- GRUPO DE FECHAS --- */
   .date-group {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
   }
   
   .date-group div {
@@ -89,7 +92,7 @@
   }
   
   .add-country-btn {
-    background-color: #007bff;
+    background-color: var(--color-button-secundary);
     color: white;
     border: none;
     padding: 0.5rem 0.9rem;
@@ -100,7 +103,7 @@
   }
   
   .add-country-btn:hover {
-    background-color: #0056b3;
+    background-color: #B0AEAE;
   }
   
   /* --- LISTA DE CIUDADES --- */
@@ -133,7 +136,7 @@
   
   /* --- BOTÓN DE ENVÍO --- */
   .submit-btn {
-    background-color: #28a745;
+    background-color: var(--color-button-primary);
     color: white;
     border: none;
     padding: 0.8rem;
@@ -145,7 +148,7 @@
   }
   
   .submit-btn:hover {
-    background-color: #1e7e34;
+    background-color: #e84231;
   }
   
   /* --- RESPONSIVE DESIGN --- */

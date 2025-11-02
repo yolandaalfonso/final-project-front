@@ -38,4 +38,34 @@
     margin: 0;
     font-weight: 600;
   }
+
+  @media (max-width: 768px) {
+    .trip-card {
+      border-radius: 12px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    }
+  
+    .trip-image {
+      height: 160px; /* más baja para pantallas pequeñas */
+    }
+  
+    .trip-title-overlay {
+      padding: 0.5rem 0.8rem;
+    }
+  
+    .trip-title-overlay h3 {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .trip-image {
+      height: 140px;
+    }
+  
+    .trip-title-overlay h3 {
+      font-size: 0.9rem;
+    }
+  }
+  
   

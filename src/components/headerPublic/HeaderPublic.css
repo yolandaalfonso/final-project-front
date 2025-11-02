@@ -1,7 +1,7 @@
 .header {
     width: 100%;
     background-color: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); */
     position: sticky;
     top: 0;
     z-index: 10;
@@ -27,8 +27,8 @@
   }
   
   .logo img {
-    height: 24px; /* un poco más pequeño */
-    width: 24px;
+    height: 120px; /* un poco más pequeño */
+    width: 120px;
     margin-right: 8px;
   }
   

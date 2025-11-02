@@ -1,6 +1,6 @@
 .hero {
     /* background-color: var(--color-text-secundary); */
-    color: var(--color-text-secundary);
+    /* color: var(--color-text-secundary); */
     background-image: var(--hero-bg);
     background-size: cover;
     background-position: center;
@@ -11,6 +11,7 @@
   
   .hero-container {
     max-width: 1280px;
+    height: 300px;
     margin: 0 auto;
     padding: 0 1rem;
     text-align: center;
