@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Hero from '../../components/hero/Hero'
 import HeroImg from '../../assets/images/heroImagen.jpg';
 import Button from '../../components/button/Button';
@@ -12,6 +13,8 @@ import './HomePage.css'
 
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
         <Hero text="Documenta tu viaje.
@@ -25,7 +28,7 @@ const HomePage = () => {
         <InicialCard img = {friendsIcon} title='Conecta con amigos' text='Sigue a amigos y otros viajeros para ver donde han estado y planear tu próxima escapada'></InicialCard>
         <InicialCard img = {compassIcon} title='Explora nuevos destinos' text='Encuentra inspiración para tu próximo viaje'></InicialCard>
       </div>
-      <Button text="Explora 🌍" type='secondary'></Button>
+      <Button text="Explora 🌍" type='secondary' onClick={() => navigate('/register')}></Button>
     </div>
 
   )

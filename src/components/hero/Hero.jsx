@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom' 
 import './Hero.css';
 import Button from '../button/Button';
 
 const Hero = ({ text = "", backgroundImage }) => {
+  const navigate = useNavigate();
+
   return (
     <div className='hero' 
     style={{
@@ -14,7 +17,7 @@ const Hero = ({ text = "", backgroundImage }) => {
           </h1>
           <p>La red social definitiva para que los viajeros registren, compartan y descubran nuevos viajes.</p>
         </div>
-        <Button text="Comienza tu aventura 🛫" type='primary'></Button>
+        <Button text="Comienza tu aventura 🛫" type='primary' onClick={() => navigate('/register')}></Button>
     </div>
   )
 }
