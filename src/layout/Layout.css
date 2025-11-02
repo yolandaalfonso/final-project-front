@@ -1,0 +1,47 @@
+/* Layout.css */
+
+/* Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Contenedor general */
+  .layout-header,
+  .layout-main,
+  .layout-footer {
+    width: 100%;
+    max-width: 1400px; /* coherente en todo el sitio */
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  
+  /* El header no debe tener margen vertical */
+  .layout-header {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  /* Espacio uniforme entre secciones */
+  .layout-main {
+    min-height: 80vh;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+  
+  /* Footer */
+  .layout-footer {
+    margin-top: 40px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .layout-header,
+    .layout-main,
+    .layout-footer {
+      padding: 0 16px;
+      max-width: 100%;
+    }
+  }
+  

@@ -17,7 +17,7 @@ export default function Footer() {
         <i className="fab fa-facebook"></i>
       </div>
 
-      <p className="footer-copy">© 2025 XXXXXX. Todos los derechos reservados.</p>
+      <p className="footer-copy">© 2025 Triply 🧳. Todos los derechos reservados.</p>
     </footer>
   );
 }

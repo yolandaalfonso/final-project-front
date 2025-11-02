@@ -1,0 +1,8 @@
+.feed-title{
+    color: var(--color-text-secondary);
+    font-size: 30px;
+}
+
+.feed-page-container{
+    width: 100%;
+}

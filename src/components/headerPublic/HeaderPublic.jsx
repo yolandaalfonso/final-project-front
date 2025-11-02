@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./HeaderPublic.css";
 import Button from "../button/Button";
 import RegistrationPage from "../../pages/registration/RegistrationPage";
+import logo from "../../assets/logo/compass-logo.png";
+import logo1 from "../../assets/logo/photos-logo.png";
+import logo2 from "../../assets/logo/postal-logo.png";
+import logo3 from "../../assets/logo/world-logo.png";
+import logo4 from "../../assets/logo/stamp-logo.png";
 
 export default function HeaderPublic() {
 
@@ -15,8 +20,8 @@ export default function HeaderPublic() {
     <header className="header">
       <nav className="navbar">
         <div className="logo">
-          <img src="/logo.svg" alt="WanderLog logo" />
-          <span>WanderLog</span>
+          {/* Izquierda: logo */}
+          <img src={logo4} alt="Triply Logo" className="logo-image" />
         </div>
 
         {/* <ul className="nav-links">

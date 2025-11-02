@@ -47,12 +47,17 @@
   
   .stat {
     text-align: center;
+    border: 1px solid var(--color-text-secondary);
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #ffffff;
   }
   
   .stat-number {
     font-size: 1.4rem;
     font-weight: 600;
     display: block;
+    color: var(--color-text-secondary);
   }
   
   .stat-label {
@@ -111,5 +116,66 @@
     color: #999;
     margin-top: 1rem;
   }
+
+  /* ---------- Tabs ---------- */
+.profile-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 40px 0 20px;
+    /* border-bottom: 2px solid #eee; */
+  }
+  
+  .tab-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: #666;
+    padding: 10px 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  
+  .tab-btn:hover {
+    color: #ff6b6b;
+  }
+  
+  .tab-btn.active {
+    color: #ff6b6b;
+    font-weight: 600;
+  }
+  
+  .tab-btn.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #ff6b6b;
+    border-radius: 2px;
+  }
+  
+  /* Contenido dentro de cada tab */
+  .profile-tab-content {
+    margin-top: 20px;
+  }
+  
+  .coming-soon {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 60px 0;
+  }
+
+  .profile-tabs button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffd580; /* halo suave y personalizado */
+    border-radius: 8px;
+  }
+  
+  
   
   
