@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../../services/apliClient";
 import "./TripPage.css";
 import Button from "../../components/button/Button";
@@ -11,6 +11,7 @@ export default function TripPage() {
   const [trip, setTrip] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -30,6 +31,10 @@ export default function TripPage() {
   if (loading) return <div className="trip-loading">Cargando viaje...</div>;
   if (error) return <div className="trip-error">{error}</div>;
   if (!trip) return <div>No se encontró el viaje.</div>;
+
+  const handleEditTrip = () => {
+    navigate(`/trips/${id}/edit`);
+  };
 
   return (
     <div className="trip-page">
@@ -61,7 +66,7 @@ export default function TripPage() {
           </div>
         </div>
         <div className="trip-actions">
-          <Button text="Editar viaje ✏️" type="primary"></Button>
+          <Button text="Editar viaje ✏️" type="primary" onClick={handleEditTrip}></Button>
           <Button text="📤 Compartir" type="secondary"></Button>
           {/* <button className="btn-edit">✏️ Editar Viaje</button> */}
           {/* <button className="btn-share">📤 Compartir</button> */}
