@@ -66,3 +66,20 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Contenedor general para todas las páginas */
+.page-container {
+  max-width: 900px;   /* ancho que te gusta de ExplorePage */
+  margin: 0 auto;     /* centrado horizontal */
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* Grid general para tarjetas */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+

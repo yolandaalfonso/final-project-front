@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiClient from "../../services/apliClient";
+import { useNavigate } from "react-router-dom";
 import FeedCard from "../../components/feedCard/FeedCard";
 import "./FeedPage.css";
 
@@ -24,6 +25,8 @@ export default function FeedPage() {
   const [feedTrips, setFeedTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
 
   // id prioritario: el del param; si no, el guardado
   const currentUserId = paramUserId || getLoggedInUserIdFromStorage();
@@ -77,17 +80,19 @@ export default function FeedPage() {
   if (error) return <div className="feed-error">{error}</div>;
 
   return (
-    <div className="feed-page-container">
-      <h1 className="feed-title">Explora e inspírate 🌍✈️📸</h1>
-      <div className="feed-grid">
-        {feedTrips.length > 0 ? (
-          feedTrips.map((trip) => (
-            <FeedCard key={trip.id_trip || trip.id} trip={trip} />
-          ))
-        ) : (
-          <p className="no-feed">No hay viajes nuevos para mostrar.</p>
-        )}
-      </div>
+    <div className="page-container">
+        <div className="feed-page-container">
+            <h1 className="feed-title">Explora e inspírate 🌍✈️📸</h1>
+            <div className="feed-grid">
+                {feedTrips.length > 0 ? (
+                feedTrips.map((trip) => (
+                    <FeedCard key={trip.id_trip || trip.id} trip={trip} onClick={() => navigate(`/trips/${trip.id_trip || trip.id}`)}/>
+                ))
+                ) : (
+                <p className="no-feed">No hay viajes nuevos para mostrar.</p>
+                )}
+            </div>
+        </div>
     </div>
   );
 }

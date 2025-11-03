@@ -6,7 +6,13 @@
     overflow: hidden; 
     max-width: 600px;
     margin: 20px auto;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.feed-card-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
 
 /* Imagen principal */
 .feed-card-image-box {
