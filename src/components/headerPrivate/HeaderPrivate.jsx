@@ -27,12 +27,17 @@ export default function HeaderPrivate() {
     };
   
     return (
-      <header className="header-private">
+        <header className="header-private">
+      <div className="header-container">
         {/* Izquierda: logo */}
-        <div className="header-left" onClick={() => navigate(`/feed/${userId}`)} style={{ cursor: "pointer" }}>
-          <img src={logo4} alt="Triply Logo" className="logo-image" />
+        <div
+          className="header-left"
+          onClick={() => navigate(`/feed/${userId}`)}
+          style={{ cursor: "pointer" }}
+        >
+          <img src={logo3} alt="Triply Logo" className="logo-image" />
         </div>
-  
+
         {/* Centro: navegación */}
         <nav className="header-nav">
           <NavLink to={`/feed/${userId}`} className="nav-link">Inicio</NavLink>
@@ -40,7 +45,7 @@ export default function HeaderPrivate() {
           <NavLink to="/tripForm" className="nav-link">Crea un viaje</NavLink>
           <NavLink to={`/trips/user/${userId}`} className="nav-link">Mi perfil</NavLink>
         </nav>
-  
+
         {/* Derecha: notificaciones + avatar */}
         <div className="header-right">
           <button className="icon-button notification-btn">🔔</button>
@@ -61,7 +66,9 @@ export default function HeaderPrivate() {
             )}
           </div>
         </div>
-      </header>
-    );
+      </div>
+    </header>
+  );
+      
 }
 

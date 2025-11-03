@@ -77,17 +77,19 @@ export default function FeedPage() {
   if (error) return <div className="feed-error">{error}</div>;
 
   return (
-    <div className="feed-page-container">
-      <h1 className="feed-title">Explora e inspírate 🌍✈️📸</h1>
-      <div className="feed-grid">
-        {feedTrips.length > 0 ? (
-          feedTrips.map((trip) => (
-            <FeedCard key={trip.id_trip || trip.id} trip={trip} />
-          ))
-        ) : (
-          <p className="no-feed">No hay viajes nuevos para mostrar.</p>
-        )}
-      </div>
+    <div className="page-container">
+        <div className="feed-page-container">
+            <h1 className="feed-title">Explora e inspírate 🌍✈️📸</h1>
+            <div className="feed-grid">
+                {feedTrips.length > 0 ? (
+                feedTrips.map((trip) => (
+                    <FeedCard key={trip.id_trip || trip.id} trip={trip} />
+                ))
+                ) : (
+                <p className="no-feed">No hay viajes nuevos para mostrar.</p>
+                )}
+            </div>
+        </div>
     </div>
   );
 }

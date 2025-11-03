@@ -21,7 +21,7 @@ export default function HeaderPublic() {
       <nav className="navbar">
         <div className="logo">
           {/* Izquierda: logo */}
-          <img src={logo4} alt="Triply Logo" className="logo-image" />
+          <img src={logo3} alt="Triply Logo" className="logo-image" />
         </div>
 
         {/* <ul className="nav-links">
