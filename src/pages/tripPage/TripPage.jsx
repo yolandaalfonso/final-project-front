@@ -13,10 +13,20 @@ export default function TripPage() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const getAvatarUrl = (avatar) => {
+    if (!avatar) return "/avatars/default-avatar.png";
+    if (avatar.startsWith("http")) return avatar;
+    const backendBase = import.meta.env.VITE_BACKEND_URL || "";
+    return `${backendBase}${avatar.startsWith("/") ? "" : "/"}${avatar}`;
+  };
+  
+
   useEffect(() => {
+    console.log("🌀 useEffect ejecutado con id:", id);
     const fetchTrip = async () => {
       try {
         const response = await apiClient.get(`/trips/${id}`);
+        console.log("✅ Viaje cargado:", response.data);
         setTrip(response.data);
       } catch (err) {
         console.error("Error al cargar el viaje:", err);
@@ -27,6 +37,9 @@ export default function TripPage() {
     };
     fetchTrip();
   }, [id]);
+
+  console.log("🔁 Renderizando TripPage con trip:", trip);
+
 
   if (loading) return <div className="trip-loading">Cargando viaje...</div>;
   if (error) return <div className="trip-error">{error}</div>;
@@ -54,11 +67,12 @@ export default function TripPage() {
       {/* ---------- INFORMACIÓN DEL VIAJERO ---------- */}
       <section className="trip-author">
         <div className="author-info">
-          <img
-            src={trip.traveler?.avatar || "https://via.placeholder.com/50"}
-            alt={trip.traveler?.name || "Viajero"}
-            className="author-avatar"
-          />
+        <img
+          src={trip?.user?.avatar || "/avatars/default-avatar.png"}
+          alt={trip?.user?.userName || "Viajero"}
+          className="trip-avatar"
+        />
+
           <div>
             {/* <h4>{trip.traveler?.name || "Viajero anónimo"}</h4> */}
             <h4>{trip.travelerUsername}</h4>

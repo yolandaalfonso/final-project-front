@@ -48,7 +48,6 @@ export default function HeaderPrivate() {
 
         {/* Derecha: notificaciones + avatar */}
         <div className="header-right">
-          <button className="icon-button notification-btn">🔔</button>
           <div className="avatar-container">
             <img
               src={avatarUrl}
@@ -59,6 +58,7 @@ export default function HeaderPrivate() {
             {menuOpen && (
               <div className="dropdown-menu">
                 <button onClick={() => navigate(`/trips/user/${userId}`)}>👤 Mi perfil</button>
+                <button onClick={() => navigate(`/explore`)}>🌍 Explora</button>
                 <button onClick={() => navigate(`/settings`)}>⚙️ Configuración</button>
                 <hr />
                 <button onClick={handleLogout} className="logout-btn">🚪 Cerrar sesión</button>
