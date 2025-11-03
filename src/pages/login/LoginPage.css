@@ -22,6 +22,15 @@
   gap: 1.2rem;
 }
 
+.login-form__back-link {
+  display: block; /* Para que text-align funcione */
+  text-align: left;
+  margin-bottom: -10px;
+  text-decoration: none; /* opcional: quita el subrayado */
+  color: var(--color-text-secondary); /* opcional: mantiene el color del texto */
+  align-self: flex-start;
+}
+
 /* Título */
 .login-modal__title {
   text-align: center;
@@ -49,7 +58,8 @@
   border: 1px solid #ccc;
   font-size: 0.95rem;
   transition: border-color 0.2s ease;
-  background-color: #ffe2df;;
+  background-color: #ffe2df;
+  color: var(--color-text);
 }
 
 .login-modal__input:focus {

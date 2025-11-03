@@ -99,9 +99,18 @@
     height: 70px;
     border-radius: 8px;
     /* Esto simula la imagen de la mujer con estilo IA */
-    background: lightcoral; 
+    background: #f3f3f3; 
     flex-shrink: 0;
+    overflow: hidden;
 }
+
+.feed-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 🔹 Mantiene proporción y llena el cuadro */
+    border-radius: 8px; /* 🔹 Igual al contenedor */
+    display: block;
+  }
 
 .highlights-list {
     list-style: none;

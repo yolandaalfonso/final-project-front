@@ -9,32 +9,27 @@
     display: flex;
     flex-direction: column;
   }
-  
   .trip-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
-  
   /* Image Container */
   .trip-card-image-container {
     position: relative;
     width: 100%;
     height: 240px;
     overflow: hidden;
-    background-color: #e5e7eb;
+    background-color: #E5E7EB;
   }
-  
   .trip-card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
-  
   .trip-card:hover .trip-card-image {
     transform: scale(1.05);
   }
-  
   /* Action Buttons */
   .trip-card-actions {
     position: absolute;
@@ -44,7 +39,6 @@
     gap: 8px;
     z-index: 10;
   }
-  
   .action-button {
     width: 36px;
     height: 36px;
@@ -57,24 +51,20 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #6b7280;
+    color: #6B7280;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  
   .action-button:hover {
     transform: scale(1.1);
     background-color: white;
   }
-  
   .action-button.active {
-    color: #ff6b6b;
+    color: #FF6B6B;
     background-color: white;
   }
-  
   .action-button:active {
     transform: scale(0.95);
   }
-  
   /* Card Content */
   .trip-card-content {
     padding: 20px;
@@ -82,11 +72,10 @@
     display: flex;
     flex-direction: column;
   }
-  
   .trip-card-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #1A1A1A;
     margin: 0 0 8px 0;
     line-height: 1.3;
     display: -webkit-box;
@@ -95,14 +84,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  
   .trip-card-location {
     font-size: 14px;
-    color: #6b7280;
+    color: #6B7280;
     margin: 0 0 16px 0;
     font-weight: 400;
   }
-  
   /* Creator Info */
   .trip-card-creator {
     display: flex;
@@ -110,23 +97,20 @@
     gap: 10px;
     margin-top: auto;
     padding-top: 12px;
-    border-top: 1px solid #f3f4f6;
+    border-top: 1px solid #F3F4F6;
   }
-  
   .creator-avatar {
     width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #f3f4f6;
+    border: 2px solid #F3F4F6;
   }
-  
   .creator-name {
     font-size: 14px;
     color: #374151;
     font-weight: 500;
   }
-
   .search-icon {
     position: absolute;
     left: 20px;
@@ -135,7 +119,6 @@
     opacity: 0.5;
     pointer-events: none;
   }
-
   /* Search Container */
 .search-container {
     max-width: 600px; /* Reducido de 800px a 600px (aprox 60%) */
@@ -144,25 +127,22 @@
     gap: 12px;
     align-items: center;
   }
-  
   .search-input-wrapper {
     flex: 1;
     position: relative;
     display: flex;
     align-items: center;
   }
-  
   .search-icon {
     position: absolute;
     left: 20px;
-    color: #9ca3af;
+    color: #9CA3AF;
     pointer-events: none;
   }
-  
   .search-input {
     width: 100%;
     padding: 16px 20px 16px 52px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E5E7EB;
     border-radius: 12px;
     font-size: 15px;
     outline: none;
@@ -170,19 +150,16 @@
     background-color: white;
     color: var(--color-text-secondary);
   }
-  
   .search-input:focus {
-    border-color: #ff6b6b;
+    border-color: #FF6B6B;
     box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
   }
-  
   .search-input::placeholder {
-    color: #9ca3af;
+    color: #9CA3AF;
   }
-  
   .search-button {
     padding: 16px 32px; /* Reducido de 40px a 32px */
-    background-color: #ff6b6b;
+    background-color: #FF6B6B;
     color: white;
     border: none;
     border-radius: 12px;
@@ -192,43 +169,40 @@
     transition: all 0.2s;
     white-space: nowrap;
   }
-  
   .search-button:hover {
-    background-color: #ff5252;
+    background-color: #FF5252;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
   }
-
   .no-results {
     text-align: center;
     padding: 60px 20px;
-    color: #6b7280;
+    color: #6B7280;
     font-size: 16px;
   }
-  
   .no-results p {
     margin: 0;
   }
-  
+
+  .filter-select{
+    background-color: var(--color-text-secondary);
+    gap: 1.5;
+  }
   /* Responsive Design */
   /* @media (max-width: 768px) {
     .trip-card-image-container {
       height: 200px;
     }
-  
     .trip-card-content {
       padding: 16px;
     }
-  
     .trip-card-title {
       font-size: 16px;
     }
-  
     .trip-card-actions {
       top: 12px;
       right: 12px;
     }
-  
     .action-button {
       width: 32px;
       height: 32px;
@@ -240,89 +214,73 @@
       flex-direction: row; /* Horizontal en móvil */
       height: auto;
     }
-  
     .trip-card-image-container {
       width: 140px; /* Ancho fijo para la imagen */
       min-width: 140px;
       height: auto;
       min-height: 160px;
     }
-  
     .trip-card-image {
       height: 100%;
     }
-  
     .trip-card-content {
       padding: 16px;
       flex: 1;
     }
-  
     .trip-card-title {
       font-size: 16px;
     }
-  
     .trip-card-actions {
       top: 12px;
       right: 12px;
     }
-  
     .action-button {
       width: 32px;
       height: 32px;
     }
-  
     .action-icon {
       width: 18px;
       height: 18px;
     }
-  
     .trip-card-creator {
       margin-top: 12px;
     }
-  
     .creator-avatar {
       width: 28px;
       height: 28px;
     }
-  
     .creator-name {
       font-size: 13px;
     }
   }
-
   @media (max-width: 768px) {
     .explore-hero {
       padding: 40px 20px 60px;
     }
-  
     .explore-title {
       font-size: 36px;
+      color: var(--color-text);
     }
-  
     .search-container {
       flex-direction: row; /* Mantener en línea */
       max-width: 100%;
     }
-  
     .search-button {
       padding: 16px 24px; /* Botón más compacto en móvil */
     }
-  
     .recommendations-section {
       padding: 0 20px;
     }
-  
     .trips-grid {
       grid-template-columns: 1fr; /* Una columna en móvil */
       gap: 16px;
     }
-  
     .filters-container {
       gap: 8px;
     }
-  
     .filter-select {
       flex: 1;
       min-width: 140px;
     }
   }
+  

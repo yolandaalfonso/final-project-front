@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import SuccessModal from '../../components/successModal/SuccessModal';
 import registerService from '../../services/register/RegisterService';
+import { uploadImageToFirebase } from "../../utils/uploadImage";
+import { Link } from 'react-router-dom';
 import './RegistrationPage.css';
 
 const RegistrationPage = () => {
@@ -10,9 +12,24 @@ const RegistrationPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [previewAvatar, setPreviewAvatar] = useState(null);
+
   const navigate = useNavigate();
 
   const watchPassword = watch('password');
+  const watchAvatar = watch('avatar');
+
+
+  useEffect(() => {
+    if (watchAvatar && watchAvatar[0]) {
+      const file = watchAvatar[0];
+      const reader = new FileReader();
+      reader.onloadend = () => setPreviewAvatar(reader.result);
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewAvatar(null);
+    }
+  }, [watchAvatar]);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -25,6 +42,12 @@ const RegistrationPage = () => {
       const defaultAvatar =
       "https://cdn-icons-png.flaticon.com/512/149/149071.png"; // puedes cambiarla por una tuya subida a Firebase Storage
 
+      let avatarUrl = defaultAvatar
+
+      // Si el usuario subió una imagen, súbela a Firebase Storage
+      if (data.avatar && data.avatar[0]) {
+        avatarUrl = await uploadImageToFirebase(data.avatar[0], data.userName);
+      }
       const payload = {
         userName: data.userName,
         email: data.email,
@@ -33,7 +56,7 @@ const RegistrationPage = () => {
         name: data.name,
         firstSurname: data.firstSurname,
         bio: data.bio || '', // opcional, si el campo viene vacío
-        avatar: defaultAvatar,
+        avatar: avatarUrl,
       };
 
       console.log('Payload enviado:', payload);
@@ -68,6 +91,7 @@ const RegistrationPage = () => {
 
           {/* Datos de registro */}
           <section className="registration-form__section">
+            <Link to="/" className="registration-form__back-link">🔙 Volver</Link>
             <h2 className="registration-form__section-title">Registro</h2>
 
             {/* Username */}
@@ -84,7 +108,7 @@ const RegistrationPage = () => {
                 }`}
               />
               {errors.username && (
-                <p className="registration-form__error">{errors.username.message}</p>
+                <p className="registration-form__error">{errors.userName.message}</p>
               )}
             </div>
 
@@ -110,6 +134,17 @@ const RegistrationPage = () => {
                 className="registration-form__input"
               />
             </div>
+
+            {previewAvatar && (
+              <div className="registration-form__avatar-preview">
+                <img
+                  src={previewAvatar}
+                  alt="Vista previa del avatar"
+                  style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover", marginTop: "10px" }}
+                />
+              </div>
+            )}
+
 
             {/* Name */}
             <div className="registration-form__field">

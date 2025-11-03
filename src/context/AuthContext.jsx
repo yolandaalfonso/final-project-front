@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import AuthService from "../services/auth/AuthService"; // 👈 CAMBIO: Importa la clase, no la instancia
-import { getAuth } from "firebase/auth";
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import AuthService from "../services/auth/AuthService";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../services/apliClient"; // 👈 importante: tu cliente axios configurado
 
 const AuthContext = createContext();
 
@@ -12,58 +13,56 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // 👇 Crea una instancia de la clase AuthService
+  const navigate = useNavigate();
   const authService = new AuthService();
+  const auth = getAuth();
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const token = await authService.getToken();
-        if (token) {
-          // Si tienes un endpoint para obtener el usuario actual
-          const currentUser = await authService.authRepository.getCurrentUser(token);
-          if (currentUser) {
-            setUser(currentUser);
-            setIsAuthenticated(true);
-            localStorage.setItem("userId", currentUser.id_user || currentUser.userId);
-          }
-        } else {
+    // 👇 Se ejecuta cada vez que cambia el estado en Firebase (login/logout/refresh)
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          // ✅ Obtén el UID del usuario autenticado en Firebase
+          const uid = firebaseUser.uid;
+
+          // 🔎 Llama a tu backend para obtener los datos completos del usuario
+          const res = await apiClient.get(`/users/byUid/${uid}`);
+
+          // 📦 Guarda el usuario completo (con avatar)
+          setUser(res.data);
+          setIsAuthenticated(true);
+
+          // 🧠 Guarda su ID en localStorage para otros componentes
+          localStorage.setItem("userId", res.data.id_user);
+        } catch (error) {
+          console.error("❌ Error obteniendo usuario del backend:", error);
           setUser(null);
           setIsAuthenticated(false);
-          localStorage.removeItem("userId");
         }
-      } catch (error) {
-        console.error("Error comprobando sesión:", error);
+      } else {
+        // Si no hay usuario autenticado en Firebase
         setUser(null);
         setIsAuthenticated(false);
-      } finally {
-        setLoading(false);
+        localStorage.removeItem("userId");
       }
-    };
 
-    checkSession();
+      setLoading(false);
+    });
 
-    const interval = setInterval(async () => {
-      const newToken = await authService.refreshToken();
-      if (newToken) {
-        console.log("🔁 Token Firebase renovado automáticamente");
-      }
-    }, 50 * 60 * 1000); // cada 50 minutos
-    
-  
-    return () => clearInterval(interval);
-
-    
+    // Limpieza al desmontar el componente
+    return () => unsubscribe();
   }, []);
 
+  // 🔐 LOGIN
   const login = async (email, password) => {
     try {
-      // ✅ Llama a la función de AuthService correctamente
       const userData = await authService.loginUser({ email, password });
-      setUser(userData);
-      setIsAuthenticated(true);
-      if (userData.id_user || userData.userId) {
-        localStorage.setItem("userId", userData.id_user || userData.userId);
+
+      if (userData?.uid) {
+        const res = await apiClient.get(`/users/byUid/${userData.uid}`);
+        setUser(res.data);
+        setIsAuthenticated(true);
+        localStorage.setItem("userId", res.data.id_user);
       }
     } catch (error) {
       console.error("Error en login:", error);
@@ -71,11 +70,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // 🚪 LOGOUT
   const logout = async () => {
-    authService.logout(); // 👈 Cambiado: tu AuthService no tiene logoutUser(), solo logout()
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem("userId");
+    try {
+      await authService.logout();
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem("userId");
+      navigate("/login");
+    }
   };
 
   const value = {
@@ -91,3 +97,4 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+

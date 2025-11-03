@@ -1,4 +1,4 @@
-// src/firebase/config.js
+/* // src/firebase/config.js
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -7,4 +7,4 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
 };
 
-export const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig); */

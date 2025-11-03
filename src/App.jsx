@@ -1,9 +1,10 @@
 import './App.css'
 import AppRoutes from './routes/Routes' 
+
 import "./components/styles/Variables.css";
 
+
 function App() {
-  
 
   return (
     <>

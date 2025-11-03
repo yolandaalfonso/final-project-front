@@ -119,7 +119,8 @@ const ExplorePage = () => {
 
         {filteredTrips.length > 0 && (
           <div className="load-more-container">
-            <button className="load-more-button">Cargar más</button>
+            <Button text='Cargar más' type='secondary'></Button>
+            {/* <button className="load-more-button">Cargar más</button> */}
           </div>
         )}
       </div>
