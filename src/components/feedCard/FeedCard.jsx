@@ -1,7 +1,7 @@
 import React from "react";
 import "./FeedCard.css";
 
-const FeedCard = ({ trip }) => {
+const FeedCard = ({ trip, onClick }) => {
   // protección por si trip es undefined
   if (!trip) {
     console.warn("FeedCard: trip is falsy", trip);
@@ -59,7 +59,7 @@ const FeedCard = ({ trip }) => {
   };
 
   return (
-    <div className="feed-card-container">
+    <div className="feed-card-container" onClick={onClick} style={{ cursor: "pointer" }}>
       <div className="feed-card-image-box">
         <img src={mainImage} alt={title} className="feed-card-main-image" />
       </div>

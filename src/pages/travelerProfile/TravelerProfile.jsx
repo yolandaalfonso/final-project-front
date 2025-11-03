@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../../services/apliClient";
 import "./TravelerProfile.css";
 import TripCard from "../../components/tripCard/TripCard";
 
 export default function TravelerProfile() {
   const { id } = useParams();
+  const navigate = useNavigate(); 
   const [profile, setProfile] = useState(null);
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +59,10 @@ export default function TravelerProfile() {
         />
         <h2>@{profile.userName}</h2>
         <p className="profile-bio">{profile.bio || "Sin biografía aún..."}</p>
-        <button className="edit-btn">Editar Perfil</button>
+        <div className="profile-buttons">
+            <button className="edit-btn" onClick={() => navigate(`/tripForm`)}>Añadir Viaje</button>
+            <button className="edit-btn" onClick={() => navigate(`/users/${profile.id_user}/edit`)}>Editar Perfil</button>
+        </div>
       </div>
 
       {/* ---------- ESTADÍSTICAS ---------- */}

@@ -175,6 +175,72 @@
     box-shadow: 0 0 0 2px #ffd580; /* halo suave y personalizado */
     border-radius: 8px;
   }
+
+  /* ---------- Fix botones perfil ---------- */
+.profile-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  @media (max-width: 600px) {
+    .profile-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .edit-btn {
+      width: 80%;
+      max-width: 250px;
+    }
+  }
+  
+  /* ---------- Stats más consistentes ---------- */
+  .profile-stats {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .stat {
+    flex: 1;
+    min-width: 130px;
+    max-width: 180px;
+    text-align: center;
+    border: 1px solid var(--color-text-secondary);
+    border-radius: 10px;
+    padding: 10px 0;
+    background-color: #ffffff;
+  }
+  
+  /* Evita que se monten en móvil */
+  @media (max-width: 600px) {
+    .profile-stats {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .stat {
+      width: 80%;
+    }
+  }
+  
+  /* ---------- Evitar cambio de ancho de página ---------- */
+  .trips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    justify-items: center;
+    box-sizing: border-box;
+  }
+  
   
   
   

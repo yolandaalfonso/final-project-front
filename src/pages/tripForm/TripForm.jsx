@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import apiClient from "../../services/apliClient";
 import { getAuth } from "firebase/auth";
-import './TripForm.css'
+import { useNavigate } from "react-router-dom";
+import SuccessModal from "../../components/successModal/SuccessModal";
+import "./TripForm.css";
 
 export default function TripForm() {
   const [formData, setFormData] = useState({
@@ -13,6 +15,8 @@ export default function TripForm() {
   });
   const [countryInput, setCountryInput] = useState("");
   const [images, setImages] = useState([]);
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado inicial: cerrado
 
   // Manejar campos de texto
   const handleChange = (e) => {
@@ -47,8 +51,7 @@ export default function TripForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-      // 🔹 Obtener el usuario actual de Firebase
-    const auth = getAuth(); // importa getAuth desde firebase/auth
+    const auth = getAuth();
     const currentUser = auth.currentUser;
 
     if (!currentUser) {
@@ -58,40 +61,32 @@ export default function TripForm() {
 
     console.log("🔹 UID que voy a enviar al backend:", currentUser.uid);
     console.log("🔹 Email que voy a enviar al backend:", currentUser.email);
-  
-    const data = new FormData();
-    /* data.append("title", formData.title);
-    data.append("description", formData.description);
-    data.append("startDate", formData.startDate);
-    data.append("endDate", formData.endDate);
-    data.append("country", JSON.stringify(formData.country));
-    images.forEach((img) => data.append("images", img)); */
 
-    // Construir un objeto con la info del viaje
+    const data = new FormData();
     const tripData = {
-        title: formData.title,
-        description: formData.description,
-        country: formData.country.join(", "), // si tu backend espera un String
-        startDate: formData.startDate,
-        endDate: formData.endDate,
+      title: formData.title,
+      description: formData.description,
+      country: formData.country.join(", "),
+      startDate: formData.startDate,
+      endDate: formData.endDate,
     };
 
-    // Agregar JSON como string bajo 'trip'
     data.append("trip", new Blob([JSON.stringify(tripData)], { type: "application/json" }));
-
-    // Agregar imágenes bajo la clave 'images'
     images.forEach((img) => data.append("images", img));
-  
+
     try {
       const response = await apiClient.post("/trips", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
-      alert("Viaje creado con éxito ✈️");
-      console.log("Respuesta del servidor:", response.data);
-  
+
+      console.log("✅ Viaje creado:", response.data);
+
+      // ✅ Abrir modal al crear viaje con éxito
+      setIsModalOpen(true);
+
+      // Limpiar formulario
       setFormData({
         title: "",
         description: "",
@@ -100,7 +95,7 @@ export default function TripForm() {
         country: [],
       });
       setImages([]);
-  
+
     } catch (err) {
       console.error("Error al crear el viaje:", err);
       if (err.response?.status === 403) {
@@ -113,65 +108,111 @@ export default function TripForm() {
 
   return (
     <div className="form-container">
-  <h2>Agregar Viaje</h2>
-  <form onSubmit={handleSubmit}>
-    <div>
-      <label>Título</label>
-      <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-    </div>
+      <h2>Agregar Viaje</h2>
 
-    <div>
-      <label>Descripción</label>
-      <textarea name="description" value={formData.description} onChange={handleChange} />
-    </div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Título</label>
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    <div>
-      <label>Fotos (máx. 3)</label>
-      <input type="file" multiple accept="image/*" onChange={handleFileChange} className="file-input" />
-      {images.length > 0 && (
-        <p className="text-small">{images.length} imágenes seleccionadas</p>
-      )}
-    </div>
+        <div>
+          <label>Descripción</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </div>
 
-    <div className="date-group">
-      <div>
-        <label>Fecha inicio</label>
-        <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
-      </div>
-      <div>
-        <label>Fecha fin</label>
-        <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
-      </div>
-    </div>
+        <div>
+          <label>Fotos (máx. 3)</label>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+            className="file-input"
+          />
+          {images.length > 0 && (
+            <p className="text-small">{images.length} imágenes seleccionadas</p>
+          )}
+        </div>
 
-    <div>
-      <label>Ciudades</label>
-      <div className="country-input-group">
-        <input
-          type="text"
-          value={countryInput}
-          onChange={(e) => setCountryInput(e.target.value)}
-          placeholder="Introduce una ciudad"
-        />
-        <button type="button" onClick={handleAddCountry} className="add-country-btn">
-          Añadir
+        <div className="date-group">
+          <div>
+            <label>Fecha inicio</label>
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Fecha fin</label>
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label>Ciudades</label>
+          <div className="country-input-group">
+            <input
+              type="text"
+              value={countryInput}
+              onChange={(e) => setCountryInput(e.target.value)}
+              placeholder="Introduce una ciudad"
+            />
+            <button
+              type="button"
+              onClick={handleAddCountry}
+              className="add-country-btn"
+            >
+              Añadir
+            </button>
+          </div>
+
+          <div className="country-list">
+            {formData.country.map((country) => (
+              <span key={country} className="country-chip">
+                {country}
+                <button type="button" onClick={() => handleRemoveCountry(country)}>
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <button type="submit" className="submit-btn">
+          Guardar viaje
         </button>
-      </div>
-      <div className="country-list">
-        {formData.country.map((country) => (
-          <span key={country} className="country-chip">
-            {country}
-            <button type="button" onClick={() => handleRemoveCountry(country)}>×</button>
-          </span>
-        ))}
-      </div>
+      </form>
+
+      {/* ✅ Modal solo aparece si isModalOpen es true */}
+      <SuccessModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          navigate("/trips/user/${id_user}");
+        }}
+        title="¡Viaje creado con éxito! ✈️"
+      />
     </div>
-
-    <button type="submit" className="submit-btn">
-      Guardar viaje
-    </button>
-  </form>
-</div>
-
-  )
+  );
 }
+
+
+

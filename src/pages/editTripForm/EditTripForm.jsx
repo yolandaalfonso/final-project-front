@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import apiClient from "../../services/apliClient";
+import Button from "../../components/button/Button";
 import "./EditTripForm.css";
 
 export default function EditTripForm() {
