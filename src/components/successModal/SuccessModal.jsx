@@ -1,7 +1,8 @@
 import React from 'react';
 import './SuccessModal.css';
 
-const SuccessModal = ({ title, message, onClose, buttonText }) => {
+const SuccessModal = ({ isOpen, title, message, onClose, buttonText }) => {
+  if (!isOpen) return null;
   return (
     <div className="modal-overlay">
       <div className="modal">
