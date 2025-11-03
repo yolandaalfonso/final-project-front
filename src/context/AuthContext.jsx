@@ -53,6 +53,17 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // 🔄 REFRESH USER (por ejemplo, después de editar perfil)
+  const refreshUser = async () => {
+    try {
+      if (!user?.uid) return; // Si no hay usuario autenticado
+      const res = await apiClient.get(`/users/byUid/${user.uid}`);
+      setUser(res.data); // Actualiza el contexto con los nuevos datos
+    } catch (error) {
+      console.error("Error refrescando usuario:", error);
+    }
+  };
+
   // 🔐 LOGIN
   const login = async (email, password) => {
     try {
@@ -69,6 +80,7 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
+
 
   // 🚪 LOGOUT
   const logout = async () => {
@@ -89,6 +101,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated,
     login,
     logout,
+    refreshUser,
   };
 
   if (loading) {
