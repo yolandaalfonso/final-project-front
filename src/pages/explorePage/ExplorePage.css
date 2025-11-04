@@ -188,6 +188,10 @@
     background-color: var(--color-text-secondary);
     gap: 1.5;
   }
+
+  .load-more-container{
+    padding-top: 20px;
+  }
   /* Responsive Design */
   /* @media (max-width: 768px) {
     .trip-card-image-container {

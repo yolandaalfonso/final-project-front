@@ -247,17 +247,17 @@ const RegistrationPage = () => {
           </section>
 
           {/* Modal de éxito */}
-          {isSuccessModalOpen && (
-            <SuccessModal
-              title="✅ Registro realizado con éxito"
-              message="Tu cuenta se ha creado correctamente."
-              buttonText="Ir a inicio"
-              onClose={() => {
-                setIsSuccessModalOpen(false);
-                navigate('/');
-              }}
-            />
-          )}
+          <SuccessModal
+            isOpen={isSuccessModalOpen}
+            title="✅ Registro realizado con éxito"
+            message="Tu cuenta se ha creado correctamente."
+            buttonText="Ir a inicio"
+            onClose={() => {
+              setIsSuccessModalOpen(false);
+              navigate('/');
+            }}
+          />
+
 
           {/* Botón */}
           <div className="registration-form__submit">
