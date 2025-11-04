@@ -194,3 +194,30 @@
       height: 80px;
     }
   }
+
+  /* 🔧 Ajustes responsive y box model */
+.registration-form,
+.registration-page__container {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .registration-page {
+    padding: 10px; /* reduce el espacio exterior */
+  }
+
+  .registration-page__container {
+    padding: 0 8px; /* evita que el contenedor se pegue a los bordes */
+  }
+
+  .registration-form {
+    padding: 1rem; /* menos padding interno */
+    border-radius: 10px;
+  }
+
+  .registration-form__input,
+  .registration-form__textarea {
+    font-size: 0.9rem;
+  }
+}
